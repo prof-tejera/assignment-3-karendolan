@@ -2,10 +2,14 @@
  * Panel handles layout of the components of the timer
  */
  import React, {useContext} from "react";
+ import PropTypes from "prop-types";
  import styled from "styled-components";
 
  // Import component
  import ButtonPanel from "./ButtonPanel";
+ import Input from "../generic/Input";
+ import DisplayTime from "../generic/DisplayTime";
+ import DisplayRounds from "../generic/DisplayRounds";
 
  // Import the data provider
  import { TimerContext } from "../../context/TimerProvider";
@@ -76,6 +80,7 @@ const TitleContainer = styled.div`
    // The inputs are hidden when the timer is running or paused.
    const {
      isReset,
+     isCountASC,
      curSec,
      isEnded,
      isRunning,
@@ -85,7 +90,7 @@ const TitleContainer = styled.div`
    // Change color depending on state
    const displayColorKey = (
      // If start of Timer, or inbetween rounds
-     isRunning() && curSec === getCurStartSecs()
+     isRunning() && (isCountASC ? curSec < getCurStartSecs() : curSec > getCurStartSecs())
      ? 'ready'
      // If ended or in the middle of a count
      : (isEnded() ? 'end' : 'default' )
@@ -108,6 +113,18 @@ const TitleContainer = styled.div`
       </TitleContainer>
      </PanelStyle>
    );
+ };
+
+ Panel.propTypes = {
+   timerTitle: PropTypes.string.isRequired,
+   inputs: PropTypes.arrayOf(Input),
+   displayTimes: PropTypes.arrayOf(DisplayTime),
+   displayRound: PropTypes.arrayOf(DisplayRounds),
+ };
+
+ Panel.defaultProps = {
+   size: "medium",
+   color: primaryColor,
  };
 
  // Class description for the docs

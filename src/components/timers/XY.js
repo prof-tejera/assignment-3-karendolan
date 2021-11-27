@@ -9,8 +9,8 @@ import DisplayTime from "../generic/DisplayTime";
 
 // Hook to reset all state when component unloads
 import useResetCallback from "../../utils/useResetCallback";
-// Hook to show a fun effect when timer ends
-import useEndedEffect from '../../utils/useEndedEffect';
+// Component to show a fun effect when timer ends
+import EndConfetti from '../../utils/EndConfetti';
 
 /**
  * XY functional component
@@ -85,7 +85,7 @@ const XY = () => {
           inputs={inputs}
           displayTimes={displayTimes}
       />
-      {useEndedEffect()}
+      <EndConfetti/>
     </div>
   );
 }

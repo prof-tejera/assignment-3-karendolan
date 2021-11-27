@@ -8,8 +8,8 @@ import { TimerContext } from "../../context/TimerProvider";
 
 // Hook to reset all state when component unloads
 import useResetCallback from "../../utils/useResetCallback";
-// Hook to show a fun effect when timer ends
-import useEndedEffect from '../../utils/useEndedEffect';
+// Component to show a fun effect when timer ends
+import EndConfetti from '../../utils/EndConfetti';
 
 /**
  * Stopwatch functional component
@@ -73,7 +73,7 @@ const Stopwatch = () => {
         timerTitle={timerTitle}
         inputs={inputs}
       />
-      {useEndedEffect()}
+      <EndConfetti/>
     </div>
   );
 }

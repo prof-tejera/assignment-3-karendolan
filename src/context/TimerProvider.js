@@ -71,12 +71,15 @@ const TimerProvider = ({children}) => {
   }
 
   const getCurStartSecs = () => {
+    // Start secs 1 sec out to ensure correct interval start count
+    const wDescStart =   workSecs - 1;
+    const rDescStart = restSecs - 1;
     if (isResting() || isWorking()) {
-      return (isCountASC ? 0 : (isWorking() ? workSecs: restSecs));
+      return (isCountASC ? 1 : (isWorking() ? wDescStart: rDescStart));
     } else if (wasResting) {
-      return (isCountASC ? 0 : (!wasResting ? workSecs: restSecs));
+      return (isCountASC ? 1 : (!wasResting ? wDescStart: rDescStart));
     } else {
-      return (isCountASC ? 0 : (restSecs > 0 ? restSecs : workSecs));
+      return (isCountASC ? 1 : (restSecs > 1 ? rDescStart : wDescStart));
     }
   }
 
