@@ -42,11 +42,12 @@ const TitleContainer = styled.div`
  const InputsContainer = styled.div`
    color: ${GENERIC.PANEL.INPUT.color};
    background-color: ${GENERIC.PANEL.INPUT.background};
-   min-height: 20%;
    display: flex;
    flex-direction: column;
    align-items: center;
    justify-content: center;
+   width: 500px;
+   padding: 20px;
 `;
 
   const DisplayContainer = styled.div`
