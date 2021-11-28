@@ -47,7 +47,8 @@ const TitleContainer = styled.div`
    align-items: center;
    justify-content: center;
    width: 500px;
-   padding: 20px;
+   padding-top: 20px;
+   padding-bottom: 10px;
 `;
 
   const DisplayContainer = styled.div`
@@ -98,9 +99,11 @@ const TitleContainer = styled.div`
 
     return (
      <PanelStyle>
-      <InputsContainer>
-        {(isReset() && inputs)}
-      </InputsContainer>
+      {(isReset() && (
+        <InputsContainer>
+          {inputs}
+        </InputsContainer>
+      ))}
       <DisplayContainer bg={displayColorKey}>
           {displayTimes}
           {displayRound}
