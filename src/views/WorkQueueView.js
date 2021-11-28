@@ -45,7 +45,7 @@ const MenuContainer = styled.div`
   margin-top: 120px;
 `;
 
-function App() {
+function WorkQueueView() {
   //const curTimer = useRef(undefined);
   const [curTimer, setCurTimer] = useState(0);
 
@@ -92,4 +92,4 @@ function App() {
   );
 }
 
-export default App;
+export default WorkQueueView;

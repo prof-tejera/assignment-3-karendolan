@@ -8,6 +8,10 @@ export const TimerContext = createContext({});
  * Create a context for the Timers
  */
 const TimerProvider = ({children}) => {
+  // The array of Timers
+  const [timers, setTimers] = useState([]);
+  // The current timer
+  const [curTimer, setCurTimer] = useState([]);
   // the current seconds state of the timer
   const [curSec, setCurSec] = useState(0);
   // the total work seconds for the timer
@@ -81,6 +85,15 @@ const TimerProvider = ({children}) => {
     } else {
       return (isCountASC ? 1 : (restSecs > 1 ? rDescStart : wDescStart));
     }
+  }
+
+  // --- Add new timer function   --------------//
+  const addTimer = (timer, props) => {
+    setTimers(timers => [...timers, {
+      name: timer.name,
+      config: props,
+      C: timer.C,
+     }]);
   }
 
   // -----  State change callback functions ---  //
@@ -182,6 +195,7 @@ const TimerProvider = ({children}) => {
          isReset,
          isInRestingContext,
          getCurStartSecs,
+         addTimer,
        }}>
       {children}
     </TimerContext.Provider>

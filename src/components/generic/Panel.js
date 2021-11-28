@@ -23,8 +23,7 @@
    display: flex;
    flex-direction: column;
    justify-content: center;
-   height: 85vh;
-   width: 500px;
+   height: 70vh;
    /* Using Gill Sans because it's fun, easy to read, and emits energy */
    font-family: "Gill Sans", sans-serif;
    background-color: ${primaryColor};

@@ -9,6 +9,9 @@ export const STATUS = {
   RESTING: 'resting',
   PAUSED: 'paused',
   ENDED: 'ended',
+  RUNNING: 'running',
+  COMPLETED: 'completed',
+  NOT_RUNNING: 'not running',
 };
 
 export const RUNNING_STATUS = [
@@ -16,3 +19,10 @@ export const RUNNING_STATUS = [
   STATUS.WORKING,
   STATUS.RESTING,
 ];
+
+// Three status of queued timers
+export const QUEUE_STATUS = [
+  STATUS.RUNNING,
+  STATUS.COMPLETED,
+  STATUS.NOT_RUNNING,
+]

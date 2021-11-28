@@ -2,11 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 
+// Import the 3 views
 import DocumentationView from "./views/DocumentationView";
-import TimersView from "./views/TimersView";
+import AddTimersView from "./views/AddTimersView";
+import WorkQueueView from "./views/WorkQueueView";
 
 // Timer Provider
 import TimerProvider from "./context/TimerProvider";
+import TimerQueueProvider from "./context/TimerQueueProvider";
 
 // import shared color
 import GENERIC  from "./shared/COLOR";
@@ -32,6 +35,7 @@ const StyledNav = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  background-color: ${GENERIC.COLOR.primaryLightest.color};
 `;
 
 const Container = styled.div`
@@ -50,7 +54,8 @@ function App() {
       <Router>
         <nav>
           <StyledNav>
-            <StyledLink to="/">Timers</StyledLink>
+            <StyledLink to="/">Work Queue</StyledLink>
+            <StyledLink to="/add">Add Timers</StyledLink>
             <StyledLink to="/docs">Documentation</StyledLink>
           </StyledNav>
         </nav>
@@ -58,10 +63,15 @@ function App() {
           <Route path="/docs">
             <DocumentationView />
           </Route>
-          <Route path="/">
+          <Route path="/add">
             <TimerProvider>
-              <TimersView />
+              <AddTimersView />
             </TimerProvider>
+          </Route>
+          <Route path="/">
+            <TimerQueueProvider>
+              <WorkQueueView />
+            </TimerQueueProvider>
           </Route>
         </Switch>
       </Router>
