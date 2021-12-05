@@ -125,11 +125,6 @@ const TitleContainer = styled.div`
    displayRound: PropTypes.instanceOf(DisplayRounds),
  };
 
- Panel.defaultProps = {
-   size: "medium",
-   color: primaryColor,
- };
-
  // Class description for the docs
  Panel.docs =   {
      title: 'Panel ',

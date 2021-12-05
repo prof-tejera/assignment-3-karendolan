@@ -27,8 +27,8 @@ const ButtonPanel = () => {
     isRunning,
     isReset,
     curTimer,
-    workSec,
-    restSec,
+    workSecs,
+    restSecs,
     isAsc,
     rounds,
   } = useContext(TimerContext);
@@ -39,6 +39,8 @@ const ButtonPanel = () => {
 
   // for onAddTimer
   const history = useHistory();
+
+  console.log('workSec in button panel functional', workSecs);
 
   // All timers use these two buttons
   // The Reset button handles ending, reseting to start, or clearing all state
@@ -51,9 +53,10 @@ const ButtonPanel = () => {
       ? pause
       // Add timer to timer queue with config
       : () => {
+        console.log('workSec inside  add', workSecs);
         addTimer({
-          workSec,
-          restSec,
+          workSecs,
+          restSecs,
           isAsc,
           rounds,
           title: curTimer.title,

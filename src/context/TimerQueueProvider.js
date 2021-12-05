@@ -17,18 +17,16 @@ const TimerQueueProvider = ({children}) => {
   // the current seconds state of the timer
   const [curTime, setCurTime] = useState(0);
 
-  // --- Add new configured timer function   --------------//
-  // configedTimer: {workSec, restSec, isAsc, rounds, curTimer}
   /**
    * API to add a timer from the queue
+   * And update the total time
    * @param {object} configedTimer
    */
-  const addTimer = (configedTimer) => {
-    console.log('KAREN, adding tiimer ', configedTimer.title);
-    // const time = c.workSecs + ( c.restSecs ?  c.restSecs : 0 );
-    //
-    setTimers(timers => [...timers, configedTimer]);
-    // setTotalTime(curTimer + time);
+  const addTimer = (timer) => {
+    setTimers(timers => [...timers, timer]);
+    console.log('totalTime', totalTime, 'configedTimer.workSec', timer.workSecs);
+    const time = ((timer.workSecs || 0) + (timer.restSecs || 0)) * (timer.rounds || 1);
+    setTotalTime(totalTime + time)
   }
 
   /**

@@ -5,6 +5,8 @@ import styled from "styled-components";
 
 // Use button for timer choices
 import Button from "../components/generic/Button";
+// Import timer utlity function
+import { getHmsDisplayFromSecs } from '../utils/HelperFunctions';
 
 // Context Provider
 import { TimerQueueContext } from '../context/TimerQueueProvider';
@@ -48,6 +50,7 @@ function WorkQueueView() {
   // Retrieve the queue of configed timers
   const {
     timers,
+    totalTime,
    } = useContext(TimerQueueContext);
 
   const [curTimer] = useState(0);
@@ -77,9 +80,14 @@ function WorkQueueView() {
           />
         </MenuContainer>
         { timerElems.length > 0 ? (
-          <ol>
-            {timerElems}
-          </ol>
+          <div>
+            <ol>
+              {timerElems}
+            </ol>
+            Queued Timer Duration:
+            {' '}
+            {getHmsDisplayFromSecs(totalTime)}
+          </div>
         ) : (
           <Timer/>
         )
