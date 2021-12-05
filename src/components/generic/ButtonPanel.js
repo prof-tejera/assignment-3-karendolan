@@ -3,9 +3,11 @@
 */
 import React, {useContext} from "react";
 import styled from "styled-components";
+import { useHistory } from 'react-router-dom';
 
 // Import the data provider
 import { TimerContext } from "../../context/TimerProvider";
+import { TimerQueueContext } from '../../context/TimerQueueProvider';
 
 import Button from "./Button";
 
@@ -17,7 +19,6 @@ const Container = styled.div`
 
 const ButtonPanel = () => {
   const {
-    work,
     pause,
     end,
     resetStart,
@@ -25,13 +26,43 @@ const ButtonPanel = () => {
     isPaused,
     isRunning,
     isReset,
+    curTimer,
+    workSec,
+    restSec,
+    isAsc,
+    rounds,
   } = useContext(TimerContext);
+
+  const {
+    addTimer,
+   } = useContext(TimerQueueContext);
+
+  // for onAddTimer
+  const history = useHistory();
 
   // All timers use these two buttons
   // The Reset button handles ending, reseting to start, or clearing all state
   const resetButtonFunc = isRunning() ? end : (isReset() ? resetAll : resetStart);
   // the Work button handles pausing and playing the timer
-  const workButtonFunc = isRunning() ? pause : work;
+  // The 2 options are ability to pause the timer if it's running
+  // Or the ability to add the timer to the queue if it's in config state (not running)
+  const workButtonFunc = (
+    isRunning()
+      ? pause
+      // Add timer to timer queue with config
+      : () => {
+        addTimer({
+          workSec,
+          restSec,
+          isAsc,
+          rounds,
+          title: curTimer.title,
+          component: curTimer.C,
+        });
+        // return to home page
+        history.push('/')
+      }
+  );
 
   return (
     <Container>
@@ -44,7 +75,7 @@ const ButtonPanel = () => {
       <Button
         size='large'
         active={true}
-        text={(isRunning() ? 'Pause' : (isPaused() ? 'Resume' : 'Start'))}
+        text={(isRunning() ? 'Pause' : (isPaused() ? 'Resume' : 'Add Timer'))}
         onClick={workButtonFunc}
       />
     </Container>

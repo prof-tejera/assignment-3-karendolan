@@ -1,15 +1,13 @@
-import React, {useState} from "react";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import styled from "styled-components";
 
-// Import the timers
-import Stopwatch from "../components/timers/Stopwatch";
-import Countdown from "../components/timers/Countdown";
-import XY from "../components/timers/XY";
-import Tabata from "../components/timers/Tabata";
-
 // Use button for timer choices
 import Button from "../components/generic/Button";
+
+// Context Provider
+import { TimerQueueContext } from '../context/TimerQueueProvider';
 
 // Common color for default timer background
 import GENERIC  from "../shared/COLOR";
@@ -32,9 +30,8 @@ const Timer = styled.div`
   margin: 20px 0 20px;
   border-radius: 20%;
   overflow: hidden;
-  height: 80%;
-  min-width: 500px;
-  min-height: 700px;
+  min-width: 50vh;
+  min-height: 65vh;
   background-color: ${primaryColor};
 `;
 
@@ -45,44 +42,44 @@ const MenuContainer = styled.div`
   margin-top: 120px;
 `;
 
+//timers
+
 function WorkQueueView() {
-  //const curTimer = useRef(undefined);
-  const [curTimer, setCurTimer] = useState(0);
+  // Retrieve the queue of configed timers
+  const {
+    timers,
+   } = useContext(TimerQueueContext);
 
-  const timers = [
-    { title: "Stopwatch", C: <Stopwatch /> },
-    { title: "Countdown", C: <Countdown /> },
-    { title: "XY", C: <XY /> },
-    { title: "Tabata", C: <Tabata /> },
-  ]
+  const [curTimer] = useState(0);
+  // For routing to add button
+  const history = useHistory();
 
-  // previous timer end, current timer load? via effect?
-  const chooseTimer = (timer) => {
-    setCurTimer(timer);
-  };
-
-  const timerElems = timers.map(timer => {
+  const timerElems = timers.map((timer, index) => {
     return (
-      <Button
-        key={timer.title}
-        size='xlarge'
-        active={curTimer.title === timer.title}
-        text={timer.title}
-        onClick={() => chooseTimer(timer)}
-      />
-    )
-  })
+      <li key={index}>
+        {timer.title}
+      </li>
+    );
+  });
+
+  console.log('timerElems length', timerElems.length);
 
   return (
     <Timers>
       <TimerContainer>
         <MenuContainer>
-          {timerElems}
+          <Button
+            key='Add-Timer'
+            size='xlarge'
+            active={false}
+            text='Add Timer'
+            onClick={() => history.push(`/add`)}
+          />
         </MenuContainer>
-        { !!curTimer ? (
-          <Timer>
-            {curTimer.C}
-          </Timer>
+        { timerElems.length > 0 ? (
+          <ol>
+            {timerElems}
+          </ol>
         ) : (
           <Timer/>
         )

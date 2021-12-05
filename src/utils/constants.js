@@ -21,7 +21,7 @@ export const RUNNING_STATUS = [
 ];
 
 // Three status of queued timers
-export const QUEUE_STATUS = [
+export const QUEUE_STATE = [
   STATUS.RUNNING,
   STATUS.COMPLETED,
   STATUS.NOT_RUNNING,

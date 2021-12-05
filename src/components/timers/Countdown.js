@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { TimerContext } from '../../context/TimerProvider';
+
 // Import components
 import Panel from '../generic/Panel';
 import Input from '../generic/Input';

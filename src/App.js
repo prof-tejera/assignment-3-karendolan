@@ -64,13 +64,15 @@ function App() {
             <DocumentationView />
           </Route>
           <Route path="/add">
-            <TimerProvider>
-              <AddTimersView />
-            </TimerProvider>
+            <TimerQueueProvider>
+              <TimerProvider>
+                <AddTimersView />
+              </TimerProvider>
+            </TimerQueueProvider>
           </Route>
           <Route path="/">
             <TimerQueueProvider>
-              <WorkQueueView />
+              <WorkQueueView/>
             </TimerQueueProvider>
           </Route>
         </Switch>

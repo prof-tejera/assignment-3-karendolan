@@ -122,7 +122,7 @@ const TitleContainer = styled.div`
    timerTitle: PropTypes.string.isRequired,
    inputs: PropTypes.arrayOf(Input),
    displayTimes: PropTypes.arrayOf(DisplayTime),
-   displayRound: PropTypes.arrayOf(DisplayRounds),
+   displayRound: PropTypes.instanceOf(DisplayRounds),
  };
 
  Panel.defaultProps = {

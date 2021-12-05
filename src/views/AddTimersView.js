@@ -1,6 +1,9 @@
-import React, {useState} from "react";
+import React, { useContext } from "react";
 
 import styled from "styled-components";
+
+// Import context
+import { TimerContext } from "../context/TimerProvider";
 
 // Import the timers
 import Stopwatch from "../components/timers/Stopwatch";
@@ -32,9 +35,8 @@ const Timer = styled.div`
   margin: 1em;
   border-radius: 20%;
   overflow: hidden;
-  height: 80%;
-  /* min-width: 500px;
-  min-height: 700px; */
+  min-width: 50vh;
+  min-height: 65vh;
   background-color: ${primaryColor};
 `;
 
@@ -46,7 +48,11 @@ const MenuContainer = styled.div`
 `;
 
 function AddTimersView() {
-  const [curTimer, setCurTimer] = useState(0);
+
+  const {
+    curTimer,
+    setCurTimer,
+  } = useContext(TimerContext);
 
   const timers = [
     { title: "Stopwatch", C: <Stopwatch /> },
@@ -65,7 +71,7 @@ function AddTimersView() {
       <Button
         key={timer.title}
         size='xlarge'
-        active={curTimer.title === timer.title}
+        active={curTimer && curTimer.title === timer.title}
         text={timer.title}
         onClick={() => chooseTimer(timer)}
       />
@@ -77,13 +83,6 @@ function AddTimersView() {
       <TimerContainer>
         <MenuContainer>
           {timerElems}
-          <Button
-            key='Add-Timer'
-            size='xlarge'
-            active={false}
-            text='Add Timer'
-            onClick={() => {}}
-          />
         </MenuContainer>
         { !!curTimer ? (
           <Timer>
