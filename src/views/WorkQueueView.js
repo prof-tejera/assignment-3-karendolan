@@ -43,6 +43,7 @@ const Timer = styled.div`
   display:flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
 
 const TimerInstruction = styled.div`
@@ -75,7 +76,6 @@ function WorkQueueView() {
    } = useContext(TimerQueueContext);
 
    const {
-    setIsCountASC,
     setWorkSecs,
     setRestSecs,
     setRounds,
@@ -88,10 +88,8 @@ function WorkQueueView() {
   // For routing to add button
   const history = useHistory();
 
-  console.log('KAREN Listing timers');
   const timerElems = timers.map((timer, index) => {
     const {title, workSecs, restSecs, rounds, state} = timer;
-    console.log(' --- timer', timer);
     return (
       <li key={index}>
         {title}
@@ -132,6 +130,7 @@ function WorkQueueView() {
 
   // Increment current total time
   useEffect(() => {
+    console.log('CURSEC - increment with ', curSec);
     incrementCurQueueTime(curSec);
   }, [curSec, incrementCurQueueTime]);
 
@@ -184,6 +183,15 @@ function WorkQueueView() {
               <ol>
                 {timerElems}
               </ol>
+            </div>
+            { curTimer && (
+              <div>
+                Current:
+                {' '}
+                {getHmsDisplayFromSecs(curQueueTime)}
+              </div>
+            )}
+            <div>
               Total Duration:
               {' '}
               {getHmsDisplayFromSecs(totalTime)}

@@ -1,6 +1,6 @@
 import React, {createContext, useState} from 'react';
 // Import helper
-import { STATUS, QUEUE_STATUS } from '../utils/constants';
+import { STATUS } from '../utils/constants';
 // Crete a Timer context with default empty
 export const TimerQueueContext = createContext({});
 
@@ -81,6 +81,7 @@ const TimerQueueProvider = ({children}) => {
     }
     // Check if last timer
     else if (!Number.isFinite(nextTimerIndex)) {
+      console.log('LAST TIMER!!!!');
       curTimer.state = STATUS.COMPLETED;
       setCurTimer();
       setNextTimer();
@@ -91,12 +92,12 @@ const TimerQueueProvider = ({children}) => {
       curTimer.state = STATUS.COMPLETED;
       setCurTimer(timers[nextTimerIndex]);
       setNextTimer(
-        timers.length > nextTimerIndex
+        timers.length > nextTimerIndex + 1
         ? timers[nextTimerIndex + 1]
         : undefined
       );
       setNextTimerIndex(
-        timers.length > nextTimerIndex
+        timers.length > nextTimerIndex + 1
         ? nextTimerIndex + 1
         : undefined
       );

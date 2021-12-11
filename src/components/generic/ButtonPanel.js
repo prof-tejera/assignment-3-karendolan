@@ -3,7 +3,6 @@
 */
 import React, {useContext} from "react";
 import styled from "styled-components";
-import { useHistory } from 'react-router-dom';
 
 // Import the data provider
 import { TimerContext } from "../../context/TimerProvider";
@@ -40,9 +39,6 @@ const ButtonPanel = () => {
     addTimer,
    } = useContext(TimerQueueContext);
 
-  // for onAddTimer
-  const history = useHistory();
-
   console.log('workSec in button panel functional', workSecs);
 
   // All timers use these two buttons
@@ -70,8 +66,6 @@ const ButtonPanel = () => {
           component: curTimer.C,
           state: STATUS.NOT_RUNNING,
         });
-        // return to home page
-        history.push('/')
       }
   );
 
