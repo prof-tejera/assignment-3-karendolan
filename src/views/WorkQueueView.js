@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import styled from "styled-components";
@@ -10,6 +10,8 @@ import { getHmsDisplayFromSecs } from '../utils/HelperFunctions';
 // Context Provider
 import { TimerQueueContext } from '../context/TimerQueueProvider';
 import { TimerContext } from "../context/TimerProvider";
+// work queue end confetti
+import Confetti from 'react-confetti';
 
 // Import status/state constants
 import { STATUS } from '../utils/constants';
@@ -66,6 +68,10 @@ function WorkQueueView() {
     curTimer,
     nextTimer,
     initNextTimer,
+    curQueueTime,
+    incrementCurQueueTime,
+    queueEnded,
+    resetQueueStart,
    } = useContext(TimerQueueContext);
 
    const {
@@ -74,24 +80,18 @@ function WorkQueueView() {
     setRestSecs,
     setRounds,
     work,
+    isEnded,
+    resetAll,
+    curSec,
    } = useContext(TimerContext);
-
-   // Init the context
-   if (curTimer && curTimer.state === STATUS.NOT_RUNNING) {
-     curTimer.state = STATUS.RUNNING;
-     setIsCountASC(curTimer.isCountASC);
-     setWorkSecs(curTimer.workSecs);
-     setRestSecs(curTimer.restSecs);
-     setRounds(curTimer.rounds);
-     work();
-   }
 
   // For routing to add button
   const history = useHistory();
 
+  console.log('KAREN Listing timers');
   const timerElems = timers.map((timer, index) => {
     const {title, workSecs, restSecs, rounds, state} = timer;
-    console.log('KAREN timer', timer);
+    console.log(' --- timer', timer);
     return (
       <li key={index}>
         {title}
@@ -103,7 +103,37 @@ function WorkQueueView() {
     );
   });
 
-  console.log('timerElems length', timerElems.length, 'curTimer', curTimer);
+  // When a timer ends, init the next one
+  useEffect(() => {
+    if (isEnded()) {
+      console.log("Is ENDED");
+      // Reset the timer context data
+      resetAll();
+      // Start next timer if there is one
+      initNextTimer();
+      // resetStart <--- after confetti
+    }
+  }, [isEnded, resetAll, initNextTimer]);
+
+  // When the cur timer changes, update the timer context
+  useEffect(() => {
+    // Init the curentTimer
+    console.log('In Workqueue, curTimer', curTimer);
+    if (curTimer && curTimer.state === STATUS.NOT_RUNNING) {
+      console.log('setting context state', curTimer);
+      curTimer.state = STATUS.RUNNING;
+      setWorkSecs(curTimer.workSecs);
+      setRestSecs(curTimer.restSecs);
+      setRounds(curTimer.rounds);
+      console.log('About to call work()');
+      work(curTimer);
+    }
+  }, [curTimer, setWorkSecs, setRestSecs, setRounds, work]);
+
+  // Increment current total time
+  useEffect(() => {
+    incrementCurQueueTime(curSec);
+  }, [curSec, incrementCurQueueTime]);
 
   return (
     <Timers>
@@ -123,14 +153,21 @@ function WorkQueueView() {
               key='Run-Queue'
               size='xlarge'
               active={false}
-              text={nextTimer
+              text={(
+                nextTimer
                 ? 'Next Timer'
                 : (
-                  curTimer ? 'End': 'Run Timer Queue'
-                )
-              }
+                  curTimer
+                    ? 'End'
+                    : (
+                      queueEnded
+                      ? 'Reset Queue'
+                      : 'Run Timer Queue'
+                    )
+                  )
+              )}
               onClick={() => {
-                initNextTimer();
+                queueEnded ? resetQueueStart() : initNextTimer();
               }}
             />
           )}
@@ -160,6 +197,7 @@ function WorkQueueView() {
           </Timer>
         )
       }
+      {(queueEnded && <Confetti/>)}
       </TimerContainer>
     </Timers>
   );

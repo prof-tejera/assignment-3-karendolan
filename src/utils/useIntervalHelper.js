@@ -41,6 +41,8 @@ const useIntervalHelper = ({
   // This function does the work neede between each interval
   // to ensure the correct state is set on the interval increment.
   const callback = () => {
+    console.log('In Interval! isInIntervaleState', isInIntervaleState, 'status', status, 'curSec', curSec);
+
     // Short circuit when not in an interval state
     if (!isInIntervaleState) return;
     // If curSec is at curEndSecs, do a change

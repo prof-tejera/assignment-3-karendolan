@@ -98,6 +98,7 @@ const TimerProvider = ({children}) => {
   }
 
   const work = () => {
+    console.log('In Starting work()');
     // If first start, initialize start seconds
     setCurSec(isPaused ? curSec : (isCountASC ? workSecs : 0));
     // If first start, initialize current round
