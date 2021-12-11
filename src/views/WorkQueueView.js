@@ -39,6 +39,7 @@ const Timer = styled.div`
   min-height: 65vh;
   background-color: ${primaryColor};
   display:flex;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -77,6 +78,7 @@ function WorkQueueView() {
 
    // Init the context
    if (curTimer && curTimer.state === STATUS.NOT_RUNNING) {
+     curTimer.state = STATUS.RUNNING;
      setIsCountASC(curTimer.isCountASC);
      setWorkSecs(curTimer.workSecs);
      setRestSecs(curTimer.restSecs);
@@ -141,12 +143,14 @@ function WorkQueueView() {
         }
         { timerElems.length > 0 ? (
           <Timer>
-            <ol>
-              {timerElems}
-            </ol>
-            Total Duration:
-            {' '}
-            {getHmsDisplayFromSecs(totalTime)}
+            <div>
+              <ol>
+                {timerElems}
+              </ol>
+              Total Duration:
+              {' '}
+              {getHmsDisplayFromSecs(totalTime)}
+            </div>
           </Timer>
         ) : (
           <Timer>
