@@ -8,5 +8,9 @@ export const getHmsDisplayFromSecs = (secs) => {
   const hr = `${('00' + getHrsFromSecs(secs)).slice(-2)}`;
   const min = `${('00' + getMinRemainderFromSecs(secs)).slice(-2)}`;
   const sec = `${('00' + getSecRemainerFromSecs(secs)).slice(-2)}`;
-  return `${hr}:${min}:${sec}`;
+  // return HH:mm:ss only if time contains hours
+  if (getHrsFromSecs(secs) > 0) {
+    return `${hr}:${min}:${sec}`;
+  }
+  return `${min}:${sec}`;
 }

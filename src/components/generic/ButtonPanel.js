@@ -9,6 +9,9 @@ import { useHistory } from 'react-router-dom';
 import { TimerContext } from "../../context/TimerProvider";
 import { TimerQueueContext } from '../../context/TimerQueueProvider';
 
+// Import status/state constants
+import { STATUS } from '../../utils/constants';
+
 import Button from "./Button";
 
 const Container = styled.div`
@@ -54,6 +57,10 @@ const ButtonPanel = () => {
       // Add timer to timer queue with config
       : () => {
         console.log('workSec inside  add', workSecs);
+        // At least 1 work second required
+        if (workSecs < 1) {
+          return;
+        }
         addTimer({
           workSecs,
           restSecs,
@@ -61,6 +68,7 @@ const ButtonPanel = () => {
           rounds,
           title: curTimer.title,
           component: curTimer.C,
+          state: STATUS.NOT_RUNNING,
         });
         // return to home page
         history.push('/')

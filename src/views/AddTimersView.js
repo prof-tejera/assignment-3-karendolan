@@ -38,6 +38,14 @@ const Timer = styled.div`
   min-width: 50vh;
   min-height: 65vh;
   background-color: ${primaryColor};
+  display:flex;
+  align-items: center;
+`;
+
+const TimerInstruction = styled.div`
+  align-self: center;
+  margin: auto;
+  font-size: 1.5em;
 `;
 
 const MenuContainer = styled.div`
@@ -89,7 +97,11 @@ function AddTimersView() {
             {curTimer.C}
           </Timer>
         ) : (
-          <Timer/>
+          <Timer>
+            <TimerInstruction>
+              &larr; Choose a timer
+            </TimerInstruction>
+          </Timer>
         )
       }
       </TimerContainer>

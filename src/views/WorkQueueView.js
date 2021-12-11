@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import styled from "styled-components";
@@ -7,9 +7,12 @@ import styled from "styled-components";
 import Button from "../components/generic/Button";
 // Import timer utlity function
 import { getHmsDisplayFromSecs } from '../utils/HelperFunctions';
-
 // Context Provider
 import { TimerQueueContext } from '../context/TimerQueueProvider';
+import { TimerContext } from "../context/TimerProvider";
+
+// Import status/state constants
+import { STATUS } from '../utils/constants';
 
 // Common color for default timer background
 import GENERIC  from "../shared/COLOR";
@@ -35,13 +38,21 @@ const Timer = styled.div`
   min-width: 50vh;
   min-height: 65vh;
   background-color: ${primaryColor};
+  display:flex;
+  align-items: center;
+`;
+
+const TimerInstruction = styled.div`
+  align-self: center;
+  margin: auto;
+  font-size: 1.5em;
 `;
 
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: 30px;
-  margin-top: 120px;
+  align-self: center;
 `;
 
 //timers
@@ -51,45 +62,98 @@ function WorkQueueView() {
   const {
     timers,
     totalTime,
+    curTimer,
+    nextTimer,
+    initNextTimer,
    } = useContext(TimerQueueContext);
 
-  const [curTimer] = useState(0);
+   const {
+    setIsCountASC,
+    setWorkSecs,
+    setRestSecs,
+    setRounds,
+    work,
+   } = useContext(TimerContext);
+
+   // Init the context
+   if (curTimer && curTimer.state === STATUS.NOT_RUNNING) {
+     setIsCountASC(curTimer.isCountASC);
+     setWorkSecs(curTimer.workSecs);
+     setRestSecs(curTimer.restSecs);
+     setRounds(curTimer.rounds);
+     work();
+   }
+
   // For routing to add button
   const history = useHistory();
 
   const timerElems = timers.map((timer, index) => {
+    const {title, workSecs, restSecs, rounds, state} = timer;
+    console.log('KAREN timer', timer);
     return (
       <li key={index}>
-        {timer.title}
+        {title}
+        {(workSecs !== 0) && (<div> time: {getHmsDisplayFromSecs(workSecs)} </div>)}
+        {(restSecs !== 0) && (<div>rest: {getHmsDisplayFromSecs(restSecs)} </div>)}
+        {(rounds !== 0) && (<div>rounds: {rounds} </div>)}
+        {state && (<div>state: {state} </div>)}
       </li>
     );
   });
 
-  console.log('timerElems length', timerElems.length);
+  console.log('timerElems length', timerElems.length, 'curTimer', curTimer);
 
   return (
     <Timers>
       <TimerContainer>
         <MenuContainer>
-          <Button
-            key='Add-Timer'
-            size='xlarge'
-            active={false}
-            text='Add Timer'
-            onClick={() => history.push(`/add`)}
-          />
+          {(!curTimer &&
+            <Button
+              key='Add-Timer'
+              size='xlarge'
+              active={false}
+              text='Add Timer'
+              onClick={() => history.push(`/add`)}
+            />
+          )}
+          {(timers && timers.length > 0) && (
+            <Button
+              key='Run-Queue'
+              size='xlarge'
+              active={false}
+              text={nextTimer
+                ? 'Next Timer'
+                : (
+                  curTimer ? 'End': 'Run Timer Queue'
+                )
+              }
+              onClick={() => {
+                initNextTimer();
+              }}
+            />
+          )}
         </MenuContainer>
+        { curTimer && (
+            <Timer>
+              {curTimer.component}
+            </Timer>
+          )
+        }
         { timerElems.length > 0 ? (
-          <div>
+          <Timer>
             <ol>
               {timerElems}
             </ol>
-            Queued Timer Duration:
+            Total Duration:
             {' '}
             {getHmsDisplayFromSecs(totalTime)}
-          </div>
+          </Timer>
         ) : (
-          <Timer/>
+          <Timer>
+            <TimerInstruction>
+              &larr; Add a timer
+            </TimerInstruction>
+          </Timer>
         )
       }
       </TimerContainer>

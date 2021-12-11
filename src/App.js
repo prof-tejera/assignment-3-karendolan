@@ -72,7 +72,9 @@ function App() {
           </Route>
           <Route path="/">
             <TimerQueueProvider>
-              <WorkQueueView/>
+              <TimerProvider>
+                <WorkQueueView/>
+              </TimerProvider>
             </TimerQueueProvider>
           </Route>
         </Switch>

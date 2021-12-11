@@ -12,6 +12,10 @@ const TimerQueueProvider = ({children}) => {
   const [timers, setTimers] = useState([]);
   // The current timer
   const [curTimer, setCurTimer] = useState();
+  // The next in queue timer
+  const [nextTimer, setNextTimer] = useState();
+  // The next timerIndex
+  const [nextTimerIndex, setNextTimerIndex] = useState();
   // the total work seconds for the timer
   const [totalTime, setTotalTime] = useState(0);
   // the current seconds state of the timer
@@ -24,7 +28,7 @@ const TimerQueueProvider = ({children}) => {
    */
   const addTimer = (timer) => {
     setTimers(timers => [...timers, timer]);
-    console.log('totalTime', totalTime, 'configedTimer.workSec', timer.workSecs);
+    console.log('totalTime', totalTime, 'timer', timer);
     const time = ((timer.workSecs || 0) + (timer.restSecs || 0)) * (timer.rounds || 1);
     setTotalTime(totalTime + time)
   }
@@ -44,6 +48,38 @@ const TimerQueueProvider = ({children}) => {
     setTotalTime(curTimer - deleteTime);
   };
 
+  /**
+   * API to start the timer queue by setting curTimer
+   */
+  const initNextTimer = () => {
+    console.log('nextTimerIndex', nextTimerIndex);
+    // Set initial timer
+    if (!curTimer) {
+      setCurTimer(timers.length > 0 ? timers[0] : undefined);
+      setNextTimer(timers.length > 1 ? timers[1] : undefined);
+      setNextTimerIndex(timers.length > 1 ? 1 : undefined);
+    }
+    // Check if last timer
+    else if (!Number.isFinite(nextTimerIndex)) {
+      setCurTimer();
+      setNextTimer();
+      setNextTimerIndex();
+      // Else go to next timer
+    } else {
+      setCurTimer(timers[nextTimerIndex]);
+      setNextTimer(
+        timers.length > nextTimerIndex
+        ? timers[nextTimerIndex + 1]
+        : undefined
+      );
+      setNextTimerIndex(
+        timers.length > nextTimerIndex
+        ? nextTimerIndex + 1
+        : undefined
+      );
+    }
+  }
+
   // -----  State change callback functions ---  //
 
 
@@ -54,13 +90,14 @@ const TimerQueueProvider = ({children}) => {
          timers,
          setTimers,
          curTimer,
-         setCurTimer,
+         nextTimer,
          curTime,
          setCurTime,
          totalTime,
          setTotalTime,
          addTimer,
          deleteTimer,
+         initNextTimer,
        }}>
       {children}
     </TimerQueueContext.Provider>
