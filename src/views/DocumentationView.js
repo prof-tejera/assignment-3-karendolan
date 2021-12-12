@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 import DocumentComponent from "../components/documentation/DocumentComponent";
 import TimerProvider from "../context/TimerProvider";
@@ -23,8 +24,17 @@ const Container = styled.div`
   margin: auto;
   width: 80%;
 `;
+const NavButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin: auto;
+  width: 80%;
+`;
 
 const Documentation = () => {
+  // For routing button
+  const history = useHistory();
   // compomose the component elements
   const components = DocList.map(CurrComp => {
     const {title, component, props} = CurrComp.docs;
@@ -39,6 +49,22 @@ const Documentation = () => {
   })
   return (
     <Container>
+      <NavButtonContainer>
+        <Button
+          key='Show-Queue'
+          size='xlarge'
+          active={true}
+          text='Back to Main Page'
+          onClick={() => history.push(`/`)}
+        />
+       <Button
+         key='Add-Timer'
+         size='xlarge'
+         active={false}
+         text='Add Timer'
+         onClick={() => history.push(`/add`)}
+       />
+      </NavButtonContainer>
       <TimerProvider>
         {components}
       </TimerProvider>

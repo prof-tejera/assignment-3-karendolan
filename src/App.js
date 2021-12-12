@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 
 // Import the 3 views
@@ -7,36 +7,12 @@ import DocumentationView from "./views/DocumentationView";
 import AddTimersView from "./views/AddTimersView";
 import WorkQueueView from "./views/WorkQueueView";
 
-// Timer Provider
-import TimerProvider from "./context/TimerProvider";
+// Title components
 import TimerQueueProvider from "./context/TimerQueueProvider";
 
-// import shared color
-import GENERIC  from "./shared/COLOR";
-
-// StyledLink
-// Inspired by Feb 28 blog post by Ridhik Govind
-// https://dev.to/ridhikgovind/how-to-style-your-react-router-links-using-styled-components-2350
-const StyledLink = styled(Link)`
-  color: ${GENERIC.BUTTON_COLORS.inactive.background};
-  text-decoration: none;
-  font-size: 2em;
-  font-weight: bold;
-  margin: 1rem;
-  display: inline-block;
-  &:hover {
-    color: ${GENERIC.PANEL.DEFAULT.background};
-  }
-`;
-
-const StyledNav = styled.div`
-  margin: auto;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  background-color: ${GENERIC.COLOR.primaryLightest.color};
-`;
+// Timer Provider
+import TimerProvider from "./context/TimerProvider";
+import PageHeader from "./shared/PageHeader";
 
 const Container = styled.div`
   flex: 1;
@@ -52,6 +28,8 @@ function App() {
   return (
     <Container>
       <Router>
+        <PageHeader/>
+        {/*
         <nav>
           <StyledNav>
             <StyledLink to="/">Timer Queue</StyledLink>
@@ -59,6 +37,7 @@ function App() {
             <StyledLink to="/docs">Documentation</StyledLink>
           </StyledNav>
         </nav>
+        */}
         <Switch>
           <Route path="/docs">
             <DocumentationView />

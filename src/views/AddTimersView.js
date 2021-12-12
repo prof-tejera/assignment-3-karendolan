@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 // Import context
@@ -72,6 +72,9 @@ function AddTimersView() {
     { title: "Tabata", C: <Tabata /> },
   ]
 
+  // For routing to add button
+  const history = useHistory();
+
   // previous timer end, current timer load? via effect?
   const chooseTimer = (timer) => {
     setCurTimer(timer);
@@ -94,6 +97,14 @@ function AddTimersView() {
       <TimerContainer>
         <MenuContainer>
           {timerElems}
+          {/* Naviate to timer queue */}
+           <Button
+             key='Show-Queue'
+             size='xlarge'
+             active={true}
+             text='Back to Main Page'
+             onClick={() => history.push(`/`)}
+           />
         </MenuContainer>
         { !!curTimer ? (
           <Timer>

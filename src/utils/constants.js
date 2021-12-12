@@ -26,3 +26,9 @@ export const QUEUE_STATE = [
   STATUS.COMPLETED,
   STATUS.NOT_RUNNING,
 ]
+
+export const LOCATION_TITLE_MAP = {
+  '/': 'Main Page',
+  '/add': 'Add Timer',
+  '/docs': 'Component Documentation',
+};

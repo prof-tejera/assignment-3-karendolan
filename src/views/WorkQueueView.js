@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 // Use button for timer choices
@@ -85,6 +85,8 @@ function WorkQueueView() {
     curSec,
    } = useContext(TimerContext);
 
+   // For routing button
+   const history = useHistory();
 
   /**
    * Reset local queue state and context queue state
@@ -93,6 +95,8 @@ function WorkQueueView() {
     setCurQueueTime(0);
     resetQueueStart();
   }
+
+  const hasQueuedTimer = timers && timers.length > 0;
 
   // When a timer ends, init the next one
   useEffect(() => {
@@ -144,11 +148,11 @@ function WorkQueueView() {
     <Timers>
       <TimerContainer>
         <MenuContainer>
-          {(timers && timers.length > 0) && (
+          {hasQueuedTimer && (
             <Button
               key='Run-Queue'
               size='xlarge'
-              active={false}
+              active={true}
               text={(
                 nextTimer
                 ? 'Next Timer'
@@ -170,6 +174,24 @@ function WorkQueueView() {
               }
             />
           )}
+         {(!curTimer && !queueEnded &&
+            <Button
+              key='Add-Timer'
+              size='xlarge'
+              active={hasQueuedTimer ? false : true}
+              text='Add Timer'
+              onClick={() => history.push(`/add`)}
+            />
+        )}
+        {(!curTimer && !queueEnded &&
+           <Button
+             key='Documentation'
+             size='xlarge'
+             active={false}
+             text='Component Docs'
+             onClick={() => history.push(`/docs`)}
+           />
+       )}
         </MenuContainer>
         {queueEnded && (
           <Timer>
