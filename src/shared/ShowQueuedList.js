@@ -49,7 +49,7 @@ const TimeHeader = styled.div`
   font-size: 1.3em;
   font-weight: bold;
   margin: auto;
-  align: center;
+  text-align: center;
 `;
 
 const TimeSubHeader = styled.div`

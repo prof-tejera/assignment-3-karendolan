@@ -36,9 +36,7 @@ const TimerContainer = styled.div`
 const Timer = styled.div`
   border: 1px solid gray;
   margin: 1em;
-  border-radius: 4em;
-  min-height: 200px;
-  min-width: 400px;
+  border-radius: 2em;
   overflow: hidden;
   background-color: ${primaryColor};
   display:flex;
@@ -47,11 +45,19 @@ const Timer = styled.div`
 `;
 
 const TimerInstruction = styled.div`
+  min-height: 200px;
+  min-width: 400px;
+  text-align: center;
   align-self: center;
+  justify-content: center;
   margin: auto;
   font-size: 1.5em;
   color: ${GENERIC.QUEUE_TIMER.container.color};
   background-color: ${GENERIC.QUEUE_TIMER.container.background};
+`;
+const TimerQueue = styled.div`
+  min-height: 200px;
+  padding: 10px;
 `;
 
 const MenuContainer = styled.div`
@@ -115,13 +121,15 @@ function AddTimersView() {
         ) : (
           <Timer>
             <TimerInstruction>
-              &larr; Choose a timer
+                &larr; Choose a timer
             </TimerInstruction>
           </Timer>
         )
       }
       <Timer>
-        <ShowQueuedList/>
+        <TimerQueue>
+          <ShowQueuedList/>
+        </TimerQueue>
       </Timer>
       </TimerContainer>
     </Timers>

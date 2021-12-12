@@ -31,12 +31,16 @@ const TimerContainer = styled.div`
   align-items: start;
 `;
 
+const TimerMsg = styled.div`
+  min-height: 200px;
+  min-width: 400px;
+  text-align: center;
+`;
+
 const Timer = styled.div`
   border: 1px solid gray;
   margin: 1em;
-  border-radius: 4em;
-  min-height: 200px;
-  min-width: 400px;
+  border-radius: 2em;
   overflow: hidden;
   background-color: ${primaryColor};
   display:flex;
@@ -45,11 +49,20 @@ const Timer = styled.div`
 `;
 
 const TimerInstruction = styled.div`
+  min-height: 200px;
+  min-width: 400px;
+  text-align: center;
   align-self: center;
+  justify-content: center;
   margin: auto;
   font-size: 1.5em;
   color: ${GENERIC.QUEUE_TIMER.container.color};
   background-color: ${GENERIC.QUEUE_TIMER.container.background};
+`;
+
+const TimerQueue = styled.div`
+  min-height: 200px;
+  padding: 10px;
 `;
 
 const MenuContainer = styled.div`
@@ -97,6 +110,39 @@ function WorkQueueView() {
   }
 
   const hasQueuedTimer = timers && timers.length > 0;
+
+  let  activeBlock;
+  if (queueEnded) {
+    activeBlock = (
+      <Timer>
+        <TimerInstruction>
+          Completed!
+        </TimerInstruction>
+      </Timer>
+    );
+  } else if (curTimer) {
+    activeBlock = (
+      <Timer>
+        {curTimer.component}
+      </Timer>
+    );
+  } else if (!timers || timers.length === 0 ) {
+    activeBlock = (
+      <Timer>
+        <TimerInstruction>
+          &larr; Add timer
+        </TimerInstruction>
+      </Timer>
+    );
+  } else {
+    activeBlock = (
+      <Timer>
+        <TimerInstruction>
+          &larr; Run Queue!
+        </TimerInstruction>
+      </Timer>
+    );
+  }
 
   // When a timer ends, init the next one
   useEffect(() => {
@@ -193,32 +239,16 @@ function WorkQueueView() {
            />
        )}
         </MenuContainer>
-        {queueEnded && (
-          <Timer>
-            <TimerInstruction>
-              Completed!
-            </TimerInstruction>
-          </Timer>
-        )}
-        { curTimer && (
-            <Timer>
-              {curTimer.component}
-            </Timer>
-          )
-        }
+        {/* Show the active timer or a message */}
+        {activeBlock}
         {/* Show queued timer list */}
-        { timers.length > 0
-          ? (
+        { timers.length > 0 && (
           <Timer>
-            <ShowQueuedList
-              curQueueTime={curQueueTime}
-            />
-          </Timer>
-        ) : (
-          <Timer>
-            <TimerInstruction>
-              &larr; Add timer
-            </TimerInstruction>
+            <TimerQueue>
+              <ShowQueuedList
+                curQueueTime={curQueueTime}
+              />
+            </TimerQueue>
           </Timer>
         )
       }

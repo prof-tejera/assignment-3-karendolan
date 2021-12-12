@@ -22,7 +22,6 @@
    display: flex;
    flex-direction: column;
    justify-content: center;
-   height: 70vh;
    /* Using Gill Sans because it's fun, easy to read, and emits energy */
    font-family: "Gill Sans", sans-serif;
    background-color: ${primaryColor};
@@ -32,7 +31,7 @@
 const TitleContainer = styled.div`
   color: ${GENERIC.PANEL.INPUT.background};
   background-color: ${GENERIC.BUTTON_COLORS.inactive.background};
-  padding: 20px 20px 30px;
+  padding-bottom: 1em;
   font-size: 3em;
   font-weight: bold;
   text-align: center;
@@ -46,7 +45,7 @@ const TitleContainer = styled.div`
    align-items: center;
    justify-content: center;
    width: 500px;
-   padding-top: 20px;
+   padding-top: 2em;
    padding-bottom: 10px;
 `;
 
