@@ -11,7 +11,7 @@ const TimerQueueProvider = ({children}) => {
   // The array of Timers
   const [timers, setTimers] = useState([]);
   // The current timer
-  const [curTimer, setCurTimer] = useState();
+  const [curQTimer, setCurQTimer] = useState();
   // The next in queue timer
   const [nextTimer, setNextTimer] = useState();
   // The next timerIndex
@@ -41,22 +41,21 @@ const TimerQueueProvider = ({children}) => {
     let deleteTime;
     setTimers(timers.filter((timer, i) => {
       if (i === index) {
-        console.log("KAREN timer", timer);
         deleteTime = timer.workSecs + timer.restSecs;
         return undefined;
       } else {
         return timer;
       }
     }));
-    setTotalTime(curTimer - deleteTime);
+    setTotalTime(totalTime - deleteTime);
   };
 
   /**
    * API to reset the timer queue state of the timers
    */
   const resetQueueStart = () => {
-    console.log('In resetQueueStart()', curTimer ? curTimer.title : 'not set');
-    setCurTimer();
+    console.log('In resetQueueStart()', curQTimer ? curQTimer.title : 'not set');
+    setCurQTimer();
     setNextTimer();
     setNextTimerIndex();
     setQueueEnded(false);
@@ -66,28 +65,28 @@ const TimerQueueProvider = ({children}) => {
   }
 
   /**
-   * API to start the timer queue by setting curTimer
+   * API to start the timer queue by setting curQTimer
    */
   const initNextTimer = () => {
     console.log('in nextTimerIndex()', nextTimerIndex);
     // Set initial timer
-    if (!curTimer) {
-      setCurTimer(timers.length > 0 ? timers[0] : undefined);
+    if (!curQTimer) {
+      setCurQTimer(timers.length > 0 ? timers[0] : undefined);
       setNextTimer(timers.length > 1 ? timers[1] : undefined);
       setNextTimerIndex(timers.length > 1 ? 1 : undefined);
     }
     // Check if last timer
     else if (!Number.isFinite(nextTimerIndex)) {
       console.log('LAST TIMER!!!!');
-      curTimer.state = STATUS.COMPLETED;
-      setCurTimer();
+      curQTimer.state = STATUS.COMPLETED;
+      setCurQTimer();
       setNextTimer();
       setNextTimerIndex();
       setQueueEnded(true);
       // Else go to next timer
     } else {
-      curTimer.state = STATUS.COMPLETED;
-      setCurTimer(timers[nextTimerIndex]);
+      curQTimer.state = STATUS.COMPLETED;
+      setCurQTimer(timers[nextTimerIndex]);
       setNextTimer(
         timers.length > nextTimerIndex + 1
         ? timers[nextTimerIndex + 1]
@@ -110,7 +109,7 @@ const TimerQueueProvider = ({children}) => {
       value={{
          timers,
          setTimers,
-         curTimer,
+         curQTimer,
          nextTimer,
          totalTime,
          setTotalTime,

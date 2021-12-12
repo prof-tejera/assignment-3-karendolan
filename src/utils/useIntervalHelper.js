@@ -95,6 +95,7 @@ const useIntervalHelper = ({
   // The function to stop and clear the interval
   const _stopInterval = () => {
     if (interval.current) {
+      console.log('In Interval! Stopping interval');
       clearInterval(interval.current);
       interval.current = null;
     }

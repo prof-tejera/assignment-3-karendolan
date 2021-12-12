@@ -99,14 +99,15 @@ const TimerProvider = ({children}) => {
   }
 
   const work = () => {
-    console.log('In work()', curTimer.title, 'curSecs', curSec);
+    console.log('In work()', curTimer.title, 'curSecs', curSec, 'asc params', isCountASC);
     // If first start, initialize start seconds
-    setCurSec(isPaused ? curSec : (isCountASC ? workSecs : 0));
+    setCurSec(isPaused ? curSec : (isCountASC ? 0 : workSecs));
     // If first start, initialize current round
     setCurRound(curSec === 0 && rounds > 0 && curRound === 0 ? 1 : curRound);
     // If was paused, set work status to either the work of resting or working
     setStatus(wasResting ? STATUS.RESTING : STATUS.WORKING);
     // Start the counter!
+    console.log('Calling startInterval');
     startInterval();
   }
 

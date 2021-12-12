@@ -76,7 +76,7 @@ const ShowQueuedList = ({curQueueTime}) => {
   const {
     timers,
     totalTime,
-    curTimer,
+    curQTimer,
     queueEnded,
     deleteTimer,
   } = useContext(TimerQueueContext);
@@ -124,7 +124,7 @@ const ShowQueuedList = ({curQueueTime}) => {
             </div>
           )}
         </TimerSummary>
-        {!curTimer && !queueEnded && (
+        {!curQTimer && !queueEnded && (
           <Button
             key='Delete-Timer'
             size='medium'

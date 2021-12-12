@@ -39,8 +39,6 @@ const ButtonPanel = () => {
     addTimer,
    } = useContext(TimerQueueContext);
 
-  console.log('workSec in button panel functional', workSecs);
-
   // All timers use these two buttons
   // The Reset button handles ending, reseting to start, or clearing all state
   const resetButtonFunc = isRunning() ? end : (isReset() ? resetAll : resetStart);
@@ -52,7 +50,6 @@ const ButtonPanel = () => {
       ? pause
       // Add timer to timer queue with config
       : () => {
-        console.log('workSec inside  add', workSecs);
         // At least 1 work second required
         if (workSecs < 1) {
           return;

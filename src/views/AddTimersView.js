@@ -74,10 +74,10 @@ function AddTimersView() {
   } = useContext(TimerContext);
 
   const timers = [
-    { title: "Stopwatch", C: <Stopwatch /> },
-    { title: "Countdown", C: <Countdown /> },
-    { title: "XY", C: <XY /> },
-    { title: "Tabata", C: <Tabata /> },
+    { title: "Stopwatch", C: <Stopwatch />, isCountASC: true },
+    { title: "Countdown", C: <Countdown />, isCountASC: false },
+    { title: "XY", C: <XY />, isCountASC: true },
+    { title: "Tabata", C: <Tabata />, isCountASC: true },
   ]
 
   // For routing to add button

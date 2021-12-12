@@ -77,7 +77,7 @@ function WorkQueueView() {
   // Retrieve the queue of configed timers
   const {
     timers,
-    curTimer,
+    curQTimer,
     nextTimer,
     initNextTimer,
     queueEnded,
@@ -89,6 +89,7 @@ function WorkQueueView() {
     setRestSecs,
     setRounds,
     setIsCountASC,
+    setCurTimer,
     work,
     isRunning,
     isEnded,
@@ -120,10 +121,10 @@ function WorkQueueView() {
         </TimerInstruction>
       </Timer>
     );
-  } else if (curTimer) {
+  } else if (curQTimer) {
     activeBlock = (
       <Timer>
-        {curTimer.component}
+        {curQTimer.component}
       </Timer>
     );
   } else if (!timers || timers.length === 0 ) {
@@ -147,7 +148,6 @@ function WorkQueueView() {
   // When a timer ends, init the next one
   useEffect(() => {
     if (isEnded()) {
-      console.log("Is ENDED");
       // Reset the timer context data
       resetAll();
       // Start next timer if there is one
@@ -158,7 +158,6 @@ function WorkQueueView() {
 
   useEffect(() => {
     return () => {
-      console.log('ONLY SEE THIS ONCE on unload');
       resetQueueStart();
       resetAll();
     }
@@ -167,24 +166,24 @@ function WorkQueueView() {
   // When the cur timer changes, update the timer context
   useEffect(() => {
     // Init the curentTimer
-    console.log('In Workqueue, curTimer', curTimer);
-    if (curTimer && curTimer.state === STATUS.NOT_RUNNING) {
-      console.log('setting context state', curTimer);
-      curTimer.state = STATUS.RUNNING;
-      setWorkSecs(curTimer.workSecs);
-      setRestSecs(curTimer.restSecs);
-      setRounds(curTimer.rounds);
-      setIsCountASC(curTimer.isCountASC);
+    if (curQTimer && curQTimer.state === STATUS.NOT_RUNNING) {
+      console.log('Setting up a new context state for', curQTimer.title, curQTimer.isCountASC);
+      curQTimer.state = STATUS.RUNNING;
+      setCurTimer(curQTimer);
+      setWorkSecs(curQTimer.workSecs);
+      setRestSecs(curQTimer.restSecs);
+      setRounds(curQTimer.rounds);
+      setIsCountASC(curQTimer.isCountASC);
       console.log('About to call work()');
-      work(curTimer);
+      work();
     }
-  }, [curTimer, setWorkSecs, setRestSecs, setRounds, work]);
+  }, [curQTimer, setWorkSecs, setRestSecs, setRounds, work]);
 
   // Increment current total time
   useEffect(() => {
-    console.log('CURSEC - change to ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning());
-    const secStartSec = isCountASC ? 0 : totalTime;
-    if (isRunning()) { // } && curSec !== 0) {
+    console.log('CURSEC 1 - Testing update, curSec ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning());
+    if (isRunning() && curSec !== 0) {
+      console.log('CURSEC 2 - Updating time ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning());
       setCurQueueTime(curQueueTime + 1);
     }
     // Listing to curSec change, but mindful of setup change conditionals
@@ -203,7 +202,7 @@ function WorkQueueView() {
                 nextTimer
                 ? 'Next Timer'
                 : (
-                  curTimer
+                  curQTimer
                     ? 'End'
                     : (
                       queueEnded
@@ -220,7 +219,7 @@ function WorkQueueView() {
               }
             />
           )}
-         {(!curTimer && !queueEnded &&
+         {(!curQTimer && !queueEnded &&
             <Button
               key='Add-Timer'
               size='xlarge'
@@ -229,7 +228,7 @@ function WorkQueueView() {
               onClick={() => history.push(`/add`)}
             />
         )}
-        {(!curTimer && !queueEnded &&
+        {(!curQTimer && !queueEnded &&
            <Button
              key='Documentation'
              size='xlarge'
