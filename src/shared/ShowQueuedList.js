@@ -40,10 +40,14 @@ const TimerSummary = styled.div`
   flex-direction: column;
 `;
 
+const TimeHeader = styled.div`
+  padding: 10px;
+`;
+
 /**
  * Helper to convert seconds into display HH:MM:SS
  */
-const ShowQueuedList = () => {
+const ShowQueuedList = ({curQueueTime}) => {
   // Retrieve the queue of configed timers
   const { timers, totalTime, curTimer } = useContext(
     TimerQueueContext
@@ -79,11 +83,16 @@ const ShowQueuedList = () => {
   });
   return (
     <ListWrapper>
+      <TimeHeader>
+        Total Duration: {getHmsDisplayFromSecs(totalTime)}
+        {curQueueTime && (
+          <div>
+            Current Queue Time: {curQueueTime}
+          </div>
+        )}
+      </TimeHeader>
       <div>
         <div>{timerElems}</div>
-      </div>
-      <div>
-        Total Duration: {getHmsDisplayFromSecs(totalTime)}
       </div>
     </ListWrapper>
   );

@@ -31,7 +31,7 @@ const ButtonPanel = () => {
     curTimer,
     workSecs,
     restSecs,
-    isAsc,
+    isCountASC,
     rounds,
   } = useContext(TimerContext);
 
@@ -60,7 +60,7 @@ const ButtonPanel = () => {
         addTimer({
           workSecs,
           restSecs,
-          isAsc,
+          isCountASC: isCountASC,
           rounds,
           title: curTimer.title,
           component: curTimer.C,

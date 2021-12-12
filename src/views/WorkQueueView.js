@@ -75,6 +75,7 @@ function WorkQueueView() {
     setWorkSecs,
     setRestSecs,
     setRounds,
+    setIsCountASC,
     work,
     isRunning,
     isEnded,
@@ -123,6 +124,7 @@ function WorkQueueView() {
       setWorkSecs(curTimer.workSecs);
       setRestSecs(curTimer.restSecs);
       setRounds(curTimer.rounds);
+      setIsCountASC(curTimer.isCountASC);
       console.log('About to call work()');
       work(curTimer);
     }
@@ -189,7 +191,9 @@ function WorkQueueView() {
           )
         }
         { timers.length > 0 ? (
-            <ShowQueuedList/>
+            <ShowQueuedList
+              curQueueTime={curQueueTime}
+            />
         ) : (
           <Timer>
             <TimerInstruction>
