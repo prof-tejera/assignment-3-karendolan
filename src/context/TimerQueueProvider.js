@@ -41,7 +41,7 @@ const TimerQueueProvider = ({children}) => {
     let deleteTime;
     setTimers(timers.filter((timer, i) => {
       if (i === index) {
-        deleteTime = timer.workSecs + timer.restSecs;
+        deleteTime = ((timer.workSecs || 0) + (timer.restSecs || 0)) * (timer.rounds || 1);
         return undefined;
       } else {
         return timer;

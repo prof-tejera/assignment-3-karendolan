@@ -93,6 +93,7 @@ function WorkQueueView() {
     setCurSec,
     setCurRound,
     work,
+    status,
     isRunning,
     isEnded,
     isCountASC,
@@ -186,13 +187,13 @@ function WorkQueueView() {
 
   // Increment current total time
   useEffect(() => {
-    console.log('CURSEC 1 - Testing update, curSec ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning());
+    console.log('CURSEC 1 - Testing update, curSec ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning(), 'status', status);
     if (isRunning()) {
-      console.log('CURSEC 2 - Updating time ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning());
+      console.log('CURSEC 2 - Updating time, curSec ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning(), 'status', status);
       setCurQueueTime(curQueueTime + 1);
     }
     // Listing to curSec change, but mindful of setup change conditionals
-  }, [curSec, isRunning, isCountASC, totalTime]);
+  }, [curSec]);
 
   return (
     <Timers>
