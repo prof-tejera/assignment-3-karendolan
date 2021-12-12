@@ -43,8 +43,6 @@ const useIntervalHelper = ({
   // This function does the work neede between each interval
   // to ensure the correct state is set on the interval increment.
   const callback = () => {
-    console.log('In Interval!, status', status, 'curSec', curSec);
-
     // If curSec is at curEndSecs, do a change
     if (curSec === getCurEndSecs()) {
       // The two active states to increment or change state
@@ -101,7 +99,6 @@ const useIntervalHelper = ({
   // The function to stop and clear the interval
   const _stopInterval = () => {
     if (interval.current) {
-      console.log('In Interval! Stopping interval');
       clearInterval(interval.current);
       interval.current = null;
     }

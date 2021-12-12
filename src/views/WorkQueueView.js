@@ -31,12 +31,6 @@ const TimerContainer = styled.div`
   align-items: start;
 `;
 
-const TimerMsg = styled.div`
-  min-height: 200px;
-  min-width: 400px;
-  text-align: center;
-`;
-
 const Timer = styled.div`
   border: 1px solid gray;
   margin: 1em;
@@ -93,11 +87,8 @@ function WorkQueueView() {
     setCurSec,
     setCurRound,
     work,
-    status,
     isRunning,
     isEnded,
-    isCountASC,
-    totalTime,
     resetAll,
     curSec,
    } = useContext(TimerContext);
@@ -170,7 +161,6 @@ function WorkQueueView() {
   useEffect(() => {
     // Init the curentTimer
     if (curQTimer && curQTimer.state === STATUS.NOT_RUNNING) {
-      console.log('Setting up a new context state for', curQTimer.title, curQTimer.isCountASC);
       curQTimer.state = STATUS.RUNNING;
       setCurTimer(curQTimer);
       setCurSec(curQTimer.isCountASC ? 0 : curQTimer.workSecs);
@@ -180,16 +170,13 @@ function WorkQueueView() {
       setRestSecs(curQTimer.restSecs);
       setRounds(curQTimer.rounds);
       setIsCountASC(curQTimer.isCountASC);
-      console.log('About to call work()');
       work();
     }
   }, [curQTimer, setWorkSecs, setRestSecs, setRounds, work]);
 
   // Increment current total time
   useEffect(() => {
-    console.log('CURSEC 1 - Testing update, curSec ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning(), 'status', status);
     if (isRunning()) {
-      console.log('CURSEC 2 - Updating time, curSec ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning(), 'status', status);
       setCurQueueTime(curQueueTime + 1);
     }
   }, [curSec]);
