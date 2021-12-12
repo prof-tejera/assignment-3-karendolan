@@ -33,16 +33,15 @@ const TimerContainer = styled.div`
 
 const Timer = styled.div`
   border: 1px solid gray;
-  margin: 20px 0 20px;
-  border-radius: 20%;
+  margin: 1em;
+  border-radius: 4em;
+  min-height: 200px;
+  min-width: 400px;
   overflow: hidden;
-  min-width: 50vh;
-  min-height: 65vh;
   background-color: ${primaryColor};
   display:flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
 `;
 
 const TimerInstruction = styled.div`
@@ -56,8 +55,7 @@ const TimerInstruction = styled.div`
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 30px;
-  align-self: center;
+  margin: 1em;
 `;
 
 function WorkQueueView() {
@@ -208,20 +206,18 @@ function WorkQueueView() {
             </Timer>
           )
         }
-        { curTimer && (
-            <div>
-              Current Time: {curQueueTime}
-            </div>
-          )
-        }
-        { timers.length > 0 ? (
+        {/* Show queued timer list */}
+        { timers.length > 0
+          ? (
+          <Timer>
             <ShowQueuedList
               curQueueTime={curQueueTime}
             />
+          </Timer>
         ) : (
           <Timer>
             <TimerInstruction>
-              &uarr; Add timer
+              &larr; Add timer
             </TimerInstruction>
           </Timer>
         )

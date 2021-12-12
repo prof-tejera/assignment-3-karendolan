@@ -12,11 +12,6 @@ import GENERIC from "../shared/COLOR";
 
 const ListWrapper = styled.div`
   border: 1px solid gray;
-  margin: 20px 0 20px;
-  border-radius: 20%;
-  overflow: hidden;
-  min-width: 50vh;
-  min-height: 65vh;
   color: ${GENERIC.QUEUE_TIMER.container.color};
   background-color: ${GENERIC.QUEUE_TIMER.container.background};
   display: flex;

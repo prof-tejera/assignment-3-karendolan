@@ -29,18 +29,14 @@ function App() {
     <Container>
       <Router>
         <PageHeader/>
-        {/*
-        <nav>
-          <StyledNav>
-            <StyledLink to="/">Timer Queue</StyledLink>
-            <StyledLink to="/add">Add Timers</StyledLink>
-            <StyledLink to="/docs">Documentation</StyledLink>
-          </StyledNav>
-        </nav>
-        */}
         <Switch>
           <Route path="/docs">
-            <DocumentationView />
+            {/* Add context to docs to avoid loosing queued timers */}
+            <TimerQueueProvider>
+              <TimerProvider>
+                <DocumentationView />
+              </TimerProvider>
+            </TimerQueueProvider>
           </Route>
           <Route path="/add">
             <TimerQueueProvider>

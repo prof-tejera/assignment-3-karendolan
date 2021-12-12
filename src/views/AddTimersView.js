@@ -36,26 +36,28 @@ const TimerContainer = styled.div`
 const Timer = styled.div`
   border: 1px solid gray;
   margin: 1em;
-  border-radius: 20%;
+  border-radius: 4em;
+  min-height: 200px;
+  min-width: 400px;
   overflow: hidden;
-  min-width: 50vh;
-  min-height: 65vh;
   background-color: ${primaryColor};
   display:flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const TimerInstruction = styled.div`
   align-self: center;
   margin: auto;
   font-size: 1.5em;
+  color: ${GENERIC.QUEUE_TIMER.container.color};
+  background-color: ${GENERIC.QUEUE_TIMER.container.background};
 `;
 
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 5vh;
-  margin-top: 20vh;
+  margin: 1em;
 `;
 
 function AddTimersView() {
@@ -118,7 +120,9 @@ function AddTimersView() {
           </Timer>
         )
       }
-      <ShowQueuedList/>
+      <Timer>
+        <ShowQueuedList/>
+      </Timer>
       </TimerContainer>
     </Timers>
   );
