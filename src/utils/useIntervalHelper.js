@@ -22,7 +22,6 @@ const useIntervalHelper = ({
   // State check function to test if currently in rest or work state
   isWorking,
   isResting,
-  isCountDown,
   isPaused,
   wasResting,
   // Change state functions
@@ -80,8 +79,8 @@ const useIntervalHelper = ({
     } else {
       // This is the start of the interval, initialize start seconds
       setStatus(wasResting ? STATUS.RESTING : STATUS.WORKING);
-      setCurSec(isPaused ? curSec : (isCountASC ? 1 : workSecs - 1 ));
-      setCurRound(rounds > 0 ? 1 : 0);
+      setCurSec(isPaused() ? curSec : (isCountASC ? 1 : workSecs - 1 ));
+      setCurRound(isPaused() ? curRound : (rounds > 0 ? 1 : 0 ));
     }
   }
 

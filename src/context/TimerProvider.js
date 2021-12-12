@@ -96,7 +96,11 @@ const TimerProvider = ({children}) => {
 
   const work = () => {
     console.log('In work()', curTimer.title, 'curSecs', curSec, 'asc params', isCountASC);
-    setStatus(STATUS.COUNTDOWN);
+    setStatus(
+      isPaused()
+        ? (wasResting ? STATUS.RESTING : STATUS.WORKING)
+        : STATUS.COUNTDOWN
+      );
     startInterval();
   }
 
@@ -132,21 +136,23 @@ const TimerProvider = ({children}) => {
   // state between intervals.
   // Passing as params to avoid cyclic dependency loop with context
   const { startInterval, stopInterval } = useIntervalHelper({
-      isCountASC,
-      isWorking,
-      isResting,
-      workSecs,
-      restSecs,
-      curSec,
-      curRound,
-      rounds,
-      end,
-      setStatus,
-      setCurSec,
-      setCurRound,
-      status,
-      getCurEndSecs,
-    });
+    workSecs,
+    restSecs,
+    rounds,
+    curSec,
+    curRound,
+    isCountASC,
+    isWorking,
+    isResting,
+    isPaused,
+    wasResting,
+    setStatus,
+    setCurSec,
+    setCurRound,
+    status,
+    end,
+    getCurEndSecs,
+  });
 
   return (
     // Expose global values to the timer children

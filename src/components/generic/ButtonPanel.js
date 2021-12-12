@@ -23,6 +23,7 @@ const ButtonPanel = () => {
   const {
     pause,
     end,
+    work,
     resetStart,
     resetAll,
     isPaused,
@@ -49,21 +50,27 @@ const ButtonPanel = () => {
     isRunning()
       ? pause
       // Add timer to timer queue with config
-      : () => {
-        // At least 1 work second required
-        if (workSecs < 1) {
-          return;
-        }
-        addTimer({
-          workSecs,
-          restSecs,
-          isCountASC: isCountASC,
-          rounds,
-          title: curTimer.title,
-          component: curTimer.C,
-          state: STATUS.NOT_RUNNING,
-        });
-      }
+      : (
+        isPaused()
+        ? work
+        : (
+          () => {
+           // At least 1 work second required
+           if (workSecs < 1) {
+             return;
+           }
+           addTimer({
+             workSecs,
+             restSecs,
+             isCountASC: isCountASC,
+             rounds,
+             title: curTimer.title,
+             component: curTimer.C,
+             state: STATUS.NOT_RUNNING,
+           });
+         }
+        )
+      )
   );
 
   return (
