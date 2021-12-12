@@ -6,6 +6,8 @@ import { getHmsDisplayFromSecs } from "../utils/HelperFunctions";
 import { STATUS } from '../utils/constants';
 // Context Provider
 import { TimerQueueContext } from "../context/TimerQueueProvider";
+// Use button for timer choices
+import Button from "../components/generic/Button";
 
 // Common color for default timer background
 import GENERIC from "../shared/COLOR";
@@ -18,6 +20,13 @@ const ListWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+`;
+
+const SummaryContainer = styled.div`
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 
 const TimerSummary = styled.div`
@@ -64,46 +73,67 @@ const TimeSubHeader = styled.div`
  */
 const ShowQueuedList = ({curQueueTime}) => {
   // Retrieve the queue of configed timers
-  const { timers, totalTime } = useContext(
-    TimerQueueContext
-  );
+  const {
+    timers,
+    totalTime,
+    curTimer,
+    queueEnded,
+    deleteTimer,
+  } = useContext(TimerQueueContext);
   // loop through the list of queued timers
   const timerElems = timers.map((timer, index) => {
-    const { title, workSecs, restSecs, rounds, state } = timer;
+    const {
+      title,
+      workSecs,
+      restSecs,
+      rounds,
+      state
+    } = timer;
     return (
-      <TimerSummary
-        activeKey={
-          state === STATUS.RUNNING
-          ? 'active'
-          : (
-            state === STATUS.COMPLETED
-            ? 'completed'
-            : 'inactive'
-          )
-        }
-      >
-        {title}
-        {workSecs !== 0 && (
-          <div>
-            Time: {getHmsDisplayFromSecs(workSecs)}
-          </div>
+      <SummaryContainer key={index}>
+        <TimerSummary
+          activeKey={
+            state === STATUS.RUNNING
+            ? 'active'
+            : (
+              state === STATUS.COMPLETED
+              ? 'completed'
+              : 'inactive'
+            )
+          }
+        >
+          {title}
+          {workSecs !== 0 && (
+            <div>
+              Time: {getHmsDisplayFromSecs(workSecs)}
+            </div>
+          )}
+          {restSecs !== 0 && (
+            <div>
+              Rest: {getHmsDisplayFromSecs(restSecs)}
+            </div>
+          )}
+          {rounds !== 0 && (
+            <div>
+              Rounds: {rounds}
+            </div>
+          )}
+          {state && (
+            <div>
+              {state}
+            </div>
+          )}
+        </TimerSummary>
+        {!curTimer && !queueEnded && (
+          <Button
+            key='Delete-Timer'
+            size='medium'
+            active={false}
+            text='Delete &#128465;'
+            onClick={() => deleteTimer(index)}
+          />
         )}
-        {restSecs !== 0 && (
-          <div>
-            Rest: {getHmsDisplayFromSecs(restSecs)}
-          </div>
-        )}
-        {rounds !== 0 && (
-          <div>
-            Rounds: {rounds}
-          </div>
-        )}
-        {state && (
-          <div>
-            {state}
-          </div>
-        )}
-      </TimerSummary>
+      </SummaryContainer>
     );
   });
   return (

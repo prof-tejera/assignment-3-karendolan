@@ -31,7 +31,7 @@
 const TitleContainer = styled.div`
   color: ${GENERIC.PANEL.INPUT.background};
   background-color: ${GENERIC.BUTTON_COLORS.inactive.background};
-  padding-bottom: 1em;
+  padding-bottom: .5em;
   font-size: 3em;
   font-weight: bold;
   text-align: center;
@@ -45,7 +45,7 @@ const TitleContainer = styled.div`
    align-items: center;
    justify-content: center;
    width: 500px;
-   padding-top: 2em;
+   padding-top: .5em;
    padding-bottom: 10px;
 `;
 

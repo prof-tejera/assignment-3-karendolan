@@ -37,13 +37,16 @@ const TimerQueueProvider = ({children}) => {
    * API to delete a timer from the queue
    * @param {object} configedTimer
    */
-  const deleteTimer = (configedTimer) => {
+  const deleteTimer = (index) => {
     let deleteTime;
     setTimers(timers.filter((timer, i) => {
-      if (timer === configedTimer) {
-        deleteTime = timer.totalTime;
+      if (i === index) {
+        console.log("KAREN timer", timer);
+        deleteTime = timer.workSecs + timer.restSecs;
+        return undefined;
+      } else {
+        return timer;
       }
-      return timer !== configedTimer;
     }));
     setTotalTime(curTimer - deleteTime);
   };
