@@ -81,10 +81,9 @@ const useIntervalHelper = ({
       setCurSec(c => isCountASC ? c + 1 : c - 1);
     } else {
       // This is the start of the interval, initialize start seconds
+      setStatus(wasResting ? STATUS.RESTING : STATUS.WORKING);
       setCurSec(isPaused ? curSec : (isCountASC ? 1 : workSecs - 1 ));
       setCurRound(rounds > 0 ? 1 : 0);
-      // If was paused, set work status to either the work of resting or working
-      setStatus(wasResting ? STATUS.RESTING : STATUS.WORKING);
     }
   }
 

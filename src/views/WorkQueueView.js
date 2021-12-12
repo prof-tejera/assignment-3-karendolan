@@ -192,7 +192,6 @@ function WorkQueueView() {
       console.log('CURSEC 2 - Updating time, curSec ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning(), 'status', status);
       setCurQueueTime(curQueueTime + 1);
     }
-    // Listing to curSec change, but mindful of setup change conditionals
   }, [curSec]);
 
   return (
