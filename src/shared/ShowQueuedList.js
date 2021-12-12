@@ -42,9 +42,27 @@ const TimerSummary = styled.div`
   flex-direction: column;
 `;
 
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
 const TimeHeader = styled.div`
   padding: 10px;
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: auto;
+  align: center;
 `;
+
+const TimeSubHeader = styled.div`
+  padding: 3px;
+  margin: auto;
+  align: center;
+`;
+
 
 /**
  * Helper to convert seconds into display HH:MM:SS
@@ -95,14 +113,19 @@ const ShowQueuedList = ({curQueueTime}) => {
   });
   return (
     <ListWrapper>
-      <TimeHeader>
-        Total Duration: {getHmsDisplayFromSecs(totalTime)}
+      <HeaderContainer>
+        <TimeHeader>
+          Timer Queue
+        </TimeHeader>
+        <TimeSubHeader>
+          Total Time: {getHmsDisplayFromSecs(totalTime)}
+        </TimeSubHeader>
         {curQueueTime > 0 && (
-          <div>
-            Current Queue Time: {curQueueTime}
-          </div>
+          <TimeSubHeader>
+            Queue Current Time: {getHmsDisplayFromSecs(curQueueTime)}
+          </TimeSubHeader>
         )}
-      </TimeHeader>
+      </HeaderContainer>
       <div>
         <div>{timerElems}</div>
       </div>

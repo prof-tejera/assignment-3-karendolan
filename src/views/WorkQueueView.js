@@ -49,6 +49,8 @@ const TimerInstruction = styled.div`
   align-self: center;
   margin: auto;
   font-size: 1.5em;
+  color: ${GENERIC.QUEUE_TIMER.container.color};
+  background-color: ${GENERIC.QUEUE_TIMER.container.background};
 `;
 
 const MenuContainer = styled.div`
@@ -196,7 +198,7 @@ function WorkQueueView() {
         {queueEnded && (
           <Timer>
             <TimerInstruction>
-              {curQueueTime} Completed!
+              Completed!
             </TimerInstruction>
           </Timer>
         )}
