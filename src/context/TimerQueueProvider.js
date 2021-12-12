@@ -18,8 +18,6 @@ const TimerQueueProvider = ({children}) => {
   const [nextTimerIndex, setNextTimerIndex] = useState();
   // the total work seconds for the timer
   const [totalTime, setTotalTime] = useState(0);
-  // the current seconds state of the timer
-  const [curQueueTime, setCurQueueTime] = useState(0);
   // Special queue ended state
   const [queueEnded, setQueueEnded] = useState();
 
@@ -51,17 +49,13 @@ const TimerQueueProvider = ({children}) => {
   };
 
   /**
-   * API to increment the total queue time
-   * @param {number} increment - the secs to increment
-   */
-  const incrementCurQueueTime = (increment) => {
-    setCurQueueTime(curQueueTime + increment);
-  }
-
-  /**
    * API to reset the timer queue state of the timers
    */
   const resetQueueStart = () => {
+    console.log('In resetQueueStart()', curTimer ? curTimer.title : 'not set');
+    setCurTimer();
+    setNextTimer();
+    setNextTimerIndex();
     setQueueEnded(false);
     timers.forEach((item) => {
       item.state = STATUS.NOT_RUNNING;
@@ -72,7 +66,7 @@ const TimerQueueProvider = ({children}) => {
    * API to start the timer queue by setting curTimer
    */
   const initNextTimer = () => {
-    console.log('nextTimerIndex', nextTimerIndex);
+    console.log('in nextTimerIndex()', nextTimerIndex);
     // Set initial timer
     if (!curTimer) {
       setCurTimer(timers.length > 0 ? timers[0] : undefined);
@@ -115,8 +109,6 @@ const TimerQueueProvider = ({children}) => {
          setTimers,
          curTimer,
          nextTimer,
-         curQueueTime,
-         incrementCurQueueTime,
          totalTime,
          setTotalTime,
          addTimer,

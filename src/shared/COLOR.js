@@ -1,8 +1,8 @@
 /* CSS - Cascading Style Sheet */
 /* Palette color codes */
 /* Palette URL: http://paletton.com/#uid=34h0r1klhllaDvZfYqDqyg2vUaIklhllaDvZfYqDqyg2vUaIklhllaDvZfYqDqyg2vUaI */
-/* Feel free to copy&paste color codes to your application */
-/* As hex codes */
+/* "Feel free to copy&paste color codes to your application" */
+/* As hex codes, the following is the way the codes are ouput from Palette Color Codes */
 const COLOR = {
   primary0: { color: '#433075' },	/* Main Primary color */
   primary1: { color: '#897BAF' },

@@ -1,12 +1,11 @@
-import React, { useContext, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 
 import styled from "styled-components";
 
 // Use button for timer choices
 import Button from "../components/generic/Button";
-// Import timer utlity function
-import { getHmsDisplayFromSecs } from '../utils/HelperFunctions';
+// Helper to show list of Timers from the queue context
+import ShowQueuedList from "../shared/ShowQueuedList";
 // Context Provider
 import { TimerQueueContext } from '../context/TimerQueueProvider';
 import { TimerContext } from "../context/TimerProvider";
@@ -59,18 +58,15 @@ const MenuContainer = styled.div`
   align-self: center;
 `;
 
-//timers
-
 function WorkQueueView() {
+  // the current seconds state of the timer
+  const [curQueueTime, setCurQueueTime] = useState(0);
   // Retrieve the queue of configed timers
   const {
     timers,
-    totalTime,
     curTimer,
     nextTimer,
     initNextTimer,
-    curQueueTime,
-    incrementCurQueueTime,
     queueEnded,
     resetQueueStart,
    } = useContext(TimerQueueContext);
@@ -80,26 +76,22 @@ function WorkQueueView() {
     setRestSecs,
     setRounds,
     work,
+    isRunning,
     isEnded,
+    isCountASC,
+    totalTime,
     resetAll,
     curSec,
    } = useContext(TimerContext);
 
-  // For routing to add button
-  const history = useHistory();
 
-  const timerElems = timers.map((timer, index) => {
-    const {title, workSecs, restSecs, rounds, state} = timer;
-    return (
-      <li key={index}>
-        {title}
-        {(workSecs !== 0) && (<div> time: {getHmsDisplayFromSecs(workSecs)} </div>)}
-        {(restSecs !== 0) && (<div>rest: {getHmsDisplayFromSecs(restSecs)} </div>)}
-        {(rounds !== 0) && (<div>rounds: {rounds} </div>)}
-        {state && (<div>state: {state} </div>)}
-      </li>
-    );
-  });
+  /**
+   * Reset local queue state and context queue state
+   */
+  const resetTimerQueueAll = () => {
+    setCurQueueTime(0);
+    resetQueueStart();
+  }
 
   // When a timer ends, init the next one
   useEffect(() => {
@@ -112,6 +104,14 @@ function WorkQueueView() {
       // resetStart <--- after confetti
     }
   }, [isEnded, resetAll, initNextTimer]);
+
+  useEffect(() => {
+    return () => {
+      console.log('ONLY SEE THIS ONCE on unload');
+      resetQueueStart();
+      resetAll();
+    }
+  }, []);
 
   // When the cur timer changes, update the timer context
   useEffect(() => {
@@ -130,23 +130,18 @@ function WorkQueueView() {
 
   // Increment current total time
   useEffect(() => {
-    console.log('CURSEC - increment with ', curSec);
-    incrementCurQueueTime(curSec);
-  }, [curSec, incrementCurQueueTime]);
+    console.log('CURSEC - change to ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning());
+    const secStartSec = isCountASC ? 0 : totalTime;
+    if (isRunning()) { // } && curSec !== 0) {
+      setCurQueueTime(curQueueTime + 1);
+    }
+    // Listing to curSec change, but mindful of setup change conditionals
+  }, [curSec, isRunning, isCountASC, totalTime]);
 
   return (
     <Timers>
       <TimerContainer>
         <MenuContainer>
-          {(!curTimer &&
-            <Button
-              key='Add-Timer'
-              size='xlarge'
-              active={false}
-              text='Add Timer'
-              onClick={() => history.push(`/add`)}
-            />
-          )}
           {(timers && timers.length > 0) && (
             <Button
               key='Run-Queue'
@@ -161,46 +156,44 @@ function WorkQueueView() {
                     : (
                       queueEnded
                       ? 'Reset Queue'
-                      : 'Run Timer Queue'
+                      : 'Run Queue'
                     )
                   )
               )}
               onClick={() => {
-                queueEnded ? resetQueueStart() : initNextTimer();
-              }}
+                queueEnded
+                  ? resetTimerQueueAll()
+                  : initNextTimer();
+                }
+              }
             />
           )}
         </MenuContainer>
+        {queueEnded && (
+          <Timer>
+            <TimerInstruction>
+              {curQueueTime} Completed!
+            </TimerInstruction>
+          </Timer>
+        )}
         { curTimer && (
             <Timer>
               {curTimer.component}
             </Timer>
           )
         }
-        { timerElems.length > 0 ? (
-          <Timer>
+        { curTimer && (
             <div>
-              <ol>
-                {timerElems}
-              </ol>
+              Current Time: {curQueueTime}
             </div>
-            { curTimer && (
-              <div>
-                Current:
-                {' '}
-                {getHmsDisplayFromSecs(curQueueTime)}
-              </div>
-            )}
-            <div>
-              Total Duration:
-              {' '}
-              {getHmsDisplayFromSecs(totalTime)}
-            </div>
-          </Timer>
+          )
+        }
+        { timers.length > 0 ? (
+            <ShowQueuedList/>
         ) : (
           <Timer>
             <TimerInstruction>
-              &larr; Add a timer
+              &uarr; Add timer
             </TimerInstruction>
           </Timer>
         )

@@ -14,6 +14,9 @@ import Tabata from "../components/timers/Tabata";
 // Use button for timer choices
 import Button from "../components/generic/Button";
 
+// Helper to show list of Timers from the queue context
+import ShowQueuedList from "../shared/ShowQueuedList";
+
 // Common color for default timer background
 import GENERIC  from "../shared/COLOR";
 const primaryColor =  GENERIC.PANEL.DEFAULT.background;
@@ -104,6 +107,7 @@ function AddTimersView() {
           </Timer>
         )
       }
+      <ShowQueuedList/>
       </TimerContainer>
     </Timers>
   );

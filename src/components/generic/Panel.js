@@ -9,7 +9,6 @@
  import ButtonPanel from "./ButtonPanel";
  import Input from "../generic/Input";
  import DisplayTime from "../generic/DisplayTime";
- import DisplayRounds from "../generic/DisplayRounds";
 
  // Import the data provider
  import { TimerContext } from "../../context/TimerProvider";
@@ -122,7 +121,7 @@ const TitleContainer = styled.div`
    timerTitle: PropTypes.string.isRequired,
    inputs: PropTypes.arrayOf(Input),
    displayTimes: PropTypes.arrayOf(DisplayTime),
-   displayRound: PropTypes.instanceOf(DisplayRounds),
+   displayRound: PropTypes.node,
  };
 
  // Class description for the docs

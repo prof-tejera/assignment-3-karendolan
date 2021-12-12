@@ -54,7 +54,7 @@ function App() {
       <Router>
         <nav>
           <StyledNav>
-            <StyledLink to="/">Work Queue</StyledLink>
+            <StyledLink to="/">Timer Queue</StyledLink>
             <StyledLink to="/add">Add Timers</StyledLink>
             <StyledLink to="/docs">Documentation</StyledLink>
           </StyledNav>
