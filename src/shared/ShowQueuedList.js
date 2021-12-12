@@ -3,15 +3,12 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 // Import timer utlity function
 import { getHmsDisplayFromSecs } from "../utils/HelperFunctions";
+import { STATUS } from '../utils/constants';
 // Context Provider
 import { TimerQueueContext } from "../context/TimerQueueProvider";
 
 // Common color for default timer background
 import GENERIC from "../shared/COLOR";
-const primaryColor = GENERIC.PANEL.DEFAULT.background;
-const timerSummaryBgColor = GENERIC.PANEL.DEFAULT.color;
-const timerSummaryBgActiveColor = GENERIC.COLOR.secondary22.color;
-const timerSummaryColor = GENERIC.COLOR.primary1.color;
 
 const ListWrapper = styled.div`
   border: 1px solid gray;
@@ -20,7 +17,8 @@ const ListWrapper = styled.div`
   overflow: hidden;
   min-width: 50vh;
   min-height: 65vh;
-  background-color: ${primaryColor};
+  color: ${GENERIC.QUEUE_TIMER.container.color};
+  background-color: ${GENERIC.QUEUE_TIMER.container.background};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,8 +30,12 @@ const TimerSummary = styled.div`
   margin: 10px;
   padding: 10px;
   border-radius: 10%;
-  color: ${timerSummaryColor};
-  background-color: ${timerSummaryBgColor}; //timerSummaryBgActiveColor
+  color: ${(props) => {
+    return GENERIC.QUEUE_TIMER[props.activeKey].color
+  }};
+  background-color: ${(props) => {
+    return GENERIC.QUEUE_TIMER[props.activeKey].background
+  }};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,14 +51,24 @@ const TimeHeader = styled.div`
  */
 const ShowQueuedList = ({curQueueTime}) => {
   // Retrieve the queue of configed timers
-  const { timers, totalTime, curTimer } = useContext(
+  const { timers, totalTime } = useContext(
     TimerQueueContext
   );
   // loop through the list of queued timers
   const timerElems = timers.map((timer, index) => {
     const { title, workSecs, restSecs, rounds, state } = timer;
     return (
-      <TimerSummary key={index}>
+      <TimerSummary
+        activeKey={
+          state === STATUS.RUNNING
+          ? 'active'
+          : (
+            state === STATUS.COMPLETED
+            ? 'completed'
+            : 'inactive'
+          )
+        }
+      >
         {title}
         {workSecs !== 0 && (
           <div>
@@ -85,7 +97,7 @@ const ShowQueuedList = ({curQueueTime}) => {
     <ListWrapper>
       <TimeHeader>
         Total Duration: {getHmsDisplayFromSecs(totalTime)}
-        {curQueueTime && (
+        {curQueueTime > 0 && (
           <div>
             Current Queue Time: {curQueueTime}
           </div>

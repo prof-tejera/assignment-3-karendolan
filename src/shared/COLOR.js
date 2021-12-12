@@ -27,6 +27,24 @@ const COLOR = {
 // Define different component generic color sets
 const GENERIC = {
   COLOR,
+  QUEUE_TIMER: {
+    container: {
+      color: COLOR.secondary12.color,
+      background: COLOR.primary1.color,
+    },
+    active: {
+      color: COLOR.primary4.color,
+      background: COLOR.secondary22.color,
+    },
+    inactive: {
+      color: COLOR.primaryLightest.color,
+      background: COLOR.primary3.color,
+    },
+    completed: {
+      color: COLOR.primary3.color,
+      background: COLOR.secondary20.color,
+    },
+  },
   BUTTON_COLORS:{
     active: {
       color: COLOR.primary4.color,
