@@ -88,26 +88,15 @@ const TimerProvider = ({children}) => {
   // -----  State change callback functions ---  //
 
   const end = () => {
-    console.log('In end(), ', "Ending timer ", curTimer.title, "isCountASC", isCountASC, 'End secs', isCountASC ? workSecs : 0);
+    console.log('In end(), ', 'curSec', curSec, "Ending timer ", curTimer.title, "isCountASC", isCountASC, 'End secs', isCountASC ? workSecs : 0);
     stopInterval();
-    // This fires off the fireworks!!
     setStatus(STATUS.ENDED);
     setWasResting(false);
-    setCurRound(rounds);
-    // Ending on work secs vs rest
-    setCurSec(isCountASC ? workSecs : 0);
   }
 
   const work = () => {
     console.log('In work()', curTimer.title, 'curSecs', curSec, 'asc params', isCountASC);
-    // If first start, initialize start seconds
-    setCurSec(isPaused ? curSec : (isCountASC ? 0 : workSecs));
-    // If first start, initialize current round
-    setCurRound(curSec === 0 && rounds > 0 && curRound === 0 ? 1 : curRound);
-    // If was paused, set work status to either the work of resting or working
-    setStatus(wasResting ? STATUS.RESTING : STATUS.WORKING);
-    // Start the counter!
-    console.log('Calling startInterval');
+    setStatus(STATUS.COUNTDOWN);
     startInterval();
   }
 
@@ -119,12 +108,11 @@ const TimerProvider = ({children}) => {
 
   const resetStart = () => {
     console.log('In resetStart()', curTimer ? curTimer.title : 'not set');
-
     stopInterval();
     setStatus(STATUS.RESET);
     setWasResting(false);
     setCurSec(isCountASC ? 0 : workSecs);
-    setCurRound(rounds > 0 ? 1 : 0);
+    setCurRound(0);
   }
 
   const resetAll = () => {

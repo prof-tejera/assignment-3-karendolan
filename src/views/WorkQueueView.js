@@ -90,6 +90,8 @@ function WorkQueueView() {
     setRounds,
     setIsCountASC,
     setCurTimer,
+    setCurSec,
+    setCurRound,
     work,
     isRunning,
     isEnded,
@@ -170,6 +172,9 @@ function WorkQueueView() {
       console.log('Setting up a new context state for', curQTimer.title, curQTimer.isCountASC);
       curQTimer.state = STATUS.RUNNING;
       setCurTimer(curQTimer);
+      setCurSec(curQTimer.isCountASC ? 0 : curQTimer.workSecs);
+      // Start on the first round if more than one
+      setCurRound(0);
       setWorkSecs(curQTimer.workSecs);
       setRestSecs(curQTimer.restSecs);
       setRounds(curQTimer.rounds);
@@ -182,7 +187,7 @@ function WorkQueueView() {
   // Increment current total time
   useEffect(() => {
     console.log('CURSEC 1 - Testing update, curSec ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning());
-    if (isRunning() && curSec !== 0) {
+    if (isRunning()) {
       console.log('CURSEC 2 - Updating time ', curSec, 'curQueueTime', curQueueTime, 'isRunning', isRunning());
       setCurQueueTime(curQueueTime + 1);
     }

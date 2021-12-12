@@ -23,6 +23,8 @@ const useIntervalHelper = ({
   isWorking,
   isResting,
   isCountDown,
+  isPaused,
+  wasResting,
   // Change state functions
   setStatus,
   setCurSec,
@@ -36,15 +38,13 @@ const useIntervalHelper = ({
   // Initialize the 2 ref references
   const interval = useRef(null);
   const savedCallback = useRef(null);
-  const isInIntervaleState = isResting() || isWorking();
+  // const isInIntervaleState = isResting() || isWorking();
 
   // This function does the work neede between each interval
   // to ensure the correct state is set on the interval increment.
   const callback = () => {
-    console.log('In Interval! isInIntervaleState', isInIntervaleState, 'status', status, 'curSec', curSec);
+    console.log('In Interval!, status', status, 'curSec', curSec);
 
-    // Short circuit when not in an interval state
-    if (!isInIntervaleState) return;
     // If curSec is at curEndSecs, do a change
     if (curSec === getCurEndSecs()) {
       // The two active states to increment or change state
@@ -56,11 +56,11 @@ const useIntervalHelper = ({
         } else if (restSecs > 0) {
           // Otherwise, start resting
           setStatus(STATUS.RESTING);
-          setCurSec(c => isCountASC ? 0 : restSecs);
+          setCurSec(c => isCountASC ? 1 : restSecs - 1);
         } else {
           // Otherwise, increment the round, and start working again
           setCurRound(r => r + 1);
-          setCurSec(c => isCountASC ? 0 : workSecs);
+          setCurSec(c => isCountASC ? 1 : workSecs - 1);
         }
       } else if (isResting()) {
         if (curRound === rounds) {
@@ -69,7 +69,7 @@ const useIntervalHelper = ({
         } else {
           // More rounds, increment round, and switch from resting to working
           setStatus(STATUS.WORKING);
-          setCurSec(c => isCountASC ? 0 : workSecs);
+          setCurSec(c => isCountASC ? 1 : workSecs - 1);
           setCurRound(r => r + 1);
         }
       } else {
@@ -79,8 +79,15 @@ const useIntervalHelper = ({
     } else if (isResting() || isWorking()) {
       // Iterate the current seconds
       setCurSec(c => isCountASC ? c + 1 : c - 1);
+    } else {
+      // This is the start of the interval, initialize start seconds
+      setCurSec(isPaused ? curSec : (isCountASC ? 1 : workSecs - 1 ));
+      setCurRound(rounds > 0 ? 1 : 0);
+      // If was paused, set work status to either the work of resting or working
+      setStatus(wasResting ? STATUS.RESTING : STATUS.WORKING);
     }
   }
+
   // Save the above Increment-end work function as the ref callback
   savedCallback.current = callback;
 

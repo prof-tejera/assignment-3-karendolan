@@ -15,7 +15,6 @@ export const STATUS = {
 };
 
 export const RUNNING_STATUS = [
-  STATUS.COUNTDOWN,
   STATUS.WORKING,
   STATUS.RESTING,
 ];
