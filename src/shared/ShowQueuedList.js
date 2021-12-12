@@ -72,22 +72,22 @@ const ShowQueuedList = ({curQueueTime}) => {
         {title}
         {workSecs !== 0 && (
           <div>
-            time: {getHmsDisplayFromSecs(workSecs)}
+            Time: {getHmsDisplayFromSecs(workSecs)}
           </div>
         )}
         {restSecs !== 0 && (
           <div>
-            rest: {getHmsDisplayFromSecs(restSecs)}
+            Rest: {getHmsDisplayFromSecs(restSecs)}
           </div>
         )}
         {rounds !== 0 && (
           <div>
-            rounds: {rounds}
+            Rounds: {rounds}
           </div>
         )}
         {state && (
           <div>
-            state: {state}
+            {state}
           </div>
         )}
       </TimerSummary>
