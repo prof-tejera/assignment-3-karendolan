@@ -69,8 +69,10 @@ const MenuContainer = styled.div`
 `;
 
 function WorkQueueView() {
-  // the current seconds state of the timer
+  // the current seconds state of the timer queue
   const [curQueueTime, setCurQueueTime] = useState(0);
+  // the current seconds state of the current timer
+  const [curTimerTime, setCurTimerTime] = useState(0);
   // Retrieve the queue of configed timers
   const {
     timers,
@@ -88,6 +90,7 @@ function WorkQueueView() {
     resetAll,
     resetToCurTimer,
     curSec,
+    getCurStartSecs,
    } = useContext(TimerContext);
 
    // For routing button
@@ -105,8 +108,11 @@ function WorkQueueView() {
 
   const hasQueuedTimer = timers && timers.length > 0;
 
+  // The variable middle "active" component show notification
+  // and the current running timer from the queue
   let  activeBlock;
   if (queueEnded) {
+    // Show notification of completion! (Also has confetti)
     activeBlock = (
       <Timer>
         <TimerInstruction>
@@ -115,12 +121,14 @@ function WorkQueueView() {
       </Timer>
     );
   } else if (curQTimer) {
+    // Show the current active Timer from running queue
     activeBlock = (
       <Timer>
         {curQTimer.component}
       </Timer>
     );
   } else if (!timers || timers.length === 0 ) {
+    // Show notification to add a timer to the queue
     activeBlock = (
       <Timer>
         <TimerInstruction>
@@ -129,6 +137,7 @@ function WorkQueueView() {
       </Timer>
     );
   } else {
+    // Show notification to run the queue!
     activeBlock = (
       <Timer>
         <TimerInstruction>
@@ -152,6 +161,7 @@ function WorkQueueView() {
   useEffect(() => {
     // Init the new curent timer
     if (curQTimer && curQTimer.state === STATUS.NOT_RUNNING) {
+      console.log('KAREN, --- ',curQTimer.title,' --- ');
       // Prep timer for starting
       curQTimer.state = STATUS.RUNNING;
       // Update the TimerContext
@@ -159,14 +169,22 @@ function WorkQueueView() {
     }
   }, [curQTimer, resetToCurTimer]);
 
-  // Increment current total time
+  // Increment current total time when the local flag updates
   useEffect(() => {
-    console.log('KAREN useEffect for curQueueCounter curSec', curSec , "isRunning()", isRunning());
-    if (isRunning()) {
-      console.log('KAREN useEffect Updating curQueueSec');
+      console.log('KAREN, detected change in curTimerTime(',curTimerTime,')');
       setCurQueueTime(c => c + 1);
+  }, [setCurQueueTime, curTimerTime]);
+
+  // Locally keep track of changes in the timer curSec
+  useEffect(() => {
+    if (curSec !== curTimerTime
+      && isRunning()
+      && getCurStartSecs() !== curSec
+    ) {
+      console.log('KAREN, updating local timer time from (',curTimerTime,') to (', curSec, ') startSec', getCurStartSecs());
+      setCurTimerTime(curSec);
     }
-  }, [curSec, setCurQueueTime, isRunning]);
+  }, [curSec, curTimerTime, setCurTimerTime, isRunning, getCurStartSecs]);
 
   return (
     <Timers>

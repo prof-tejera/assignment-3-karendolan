@@ -81,15 +81,14 @@ const TimerProvider = ({children}) => {
    * Helper to retrieve the correct "starting" sec state for the timer
    */
   const getCurStartSecs = () => {
-    // Start secs 1 sec out to ensure correct interval start count
-    const wDescStart =   workSecs - 1;
-    const rDescStart = restSecs - 1;
+    const wDescStart =   workSecs;
+    const rDescStart = restSecs;
     if (isResting() || isWorking()) {
-      return (isCountASC ? 1 : (isWorking() ? wDescStart: rDescStart));
+      return (isCountASC ? 0 : (isWorking() ? wDescStart: rDescStart));
     } else if (wasResting) {
-      return (isCountASC ? 1 : (!wasResting ? wDescStart: rDescStart));
+      return (isCountASC ? 0 : (!wasResting ? wDescStart: rDescStart));
     } else {
-      return (isCountASC ? 1 : (restSecs > 1 ? rDescStart : wDescStart));
+      return (isCountASC ? 0 : (restSecs > 1 ? rDescStart : wDescStart));
     }
   }
 
@@ -221,6 +220,7 @@ const TimerProvider = ({children}) => {
          isInCountdown,
          isInRestingContext,
          getCurStartSecs,
+         getCurEndSecs,
          curTimer,
          setCurTimer,
        }}>

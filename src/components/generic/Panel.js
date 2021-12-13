@@ -89,7 +89,7 @@ const TitleContainer = styled.div`
    // Change color depending on state
    const displayColorKey = (
      // If start of Timer, or inbetween rounds
-     isRunning() && (isCountASC ? curSec < getCurStartSecs() : curSec > getCurStartSecs())
+     isRunning() && (isCountASC ? curSec <= getCurStartSecs() : curSec >= getCurStartSecs())
      ? 'ready'
      // If ended or in the middle of a count
      : (isEnded() ? 'end' : 'default' )
