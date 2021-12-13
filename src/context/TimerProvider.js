@@ -91,14 +91,12 @@ const TimerProvider = ({children}) => {
   // -----  State change callback functions ---  //
 
   const end = () => {
-    console.log('In end(), ', 'curSec', curSec, "Ending timer ", curTimer.title, "isCountASC", isCountASC, 'End secs', isCountASC ? workSecs : 0);
     stopInterval();
     setStatus(STATUS.ENDED);
     setWasResting(false);
   }
 
   const work = () => {
-    console.log('In work()', curTimer.title, 'curSecs', curSec, 'asc params', isCountASC);
     setStatus(
       isPaused()
         ? (wasResting ? STATUS.RESTING : STATUS.WORKING)
@@ -114,7 +112,6 @@ const TimerProvider = ({children}) => {
   }
 
   const resetStart = () => {
-    console.log('In resetStart()', curTimer ? curTimer.title : 'not set');
     stopInterval();
     setStatus(STATUS.RESET);
     setWasResting(false);
@@ -123,7 +120,6 @@ const TimerProvider = ({children}) => {
   }
 
   const resetAll = () => {
-    console.log('In resetAll()', curTimer ? curTimer.title : 'not set');
     stopInterval();
     setStatus(STATUS.RESET);
     setWasResting(false);

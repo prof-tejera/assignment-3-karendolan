@@ -28,7 +28,6 @@ const TimerQueueProvider = ({children}) => {
    */
   const addTimer = (timer) => {
     setTimers(timers => [...timers, timer]);
-    console.log('totalTime', totalTime, 'timer', timer);
     const time = ((timer.workSecs || 0) + (timer.restSecs || 0)) * (timer.rounds || 1);
     setTotalTime(totalTime + time)
   }
@@ -54,7 +53,6 @@ const TimerQueueProvider = ({children}) => {
    * API to reset the timer queue state of the timers
    */
   const resetQueueStart = () => {
-    console.log('In resetQueueStart()', curQTimer ? curQTimer.title : 'not set');
     setCurQTimer();
     setNextTimer();
     setNextTimerIndex();
