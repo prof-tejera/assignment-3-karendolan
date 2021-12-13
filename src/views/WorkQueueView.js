@@ -126,7 +126,7 @@ function WorkQueueView() {
     activeBlock = (
       <Timer>
         <TimerInstruction>
-          &larr; Add timer
+          &larr; Add a timer
         </TimerInstruction>
       </Timer>
     );
