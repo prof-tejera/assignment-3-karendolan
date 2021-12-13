@@ -64,7 +64,9 @@ const TimerProvider = ({children}) => {
     );
   }
 
-  // This returns the current terminating second count
+  /**
+   * Helper to retrieve the correct "ending" sec state for the timer
+   */
   const getCurEndSecs = () => {
     if (isResting() || isWorking()) {
       return (isCountASC ? (isWorking() ? workSecs: restSecs) : 0);
@@ -75,6 +77,9 @@ const TimerProvider = ({children}) => {
     }
   }
 
+  /**
+   * Helper to retrieve the correct "starting" sec state for the timer
+   */
   const getCurStartSecs = () => {
     // Start secs 1 sec out to ensure correct interval start count
     const wDescStart =   workSecs - 1;
@@ -90,12 +95,18 @@ const TimerProvider = ({children}) => {
 
   // -----  State change callback functions ---  //
 
+  /**
+   * Helper end timer state without changing context config
+   */
   const end = () => {
     stopInterval();
     setStatus(STATUS.ENDED);
     setWasResting(false);
   }
 
+  /**
+   * Helper start the interval
+   */
   const work = () => {
     setStatus(
       isPaused()
@@ -105,12 +116,18 @@ const TimerProvider = ({children}) => {
     startInterval();
   }
 
+  /**
+   * Helper pause timer state without changing context config
+   */
   const pause = () => {
     setWasResting(!isWorking());
     setStatus(STATUS.PAUSED);
     stopInterval();
   }
 
+  /**
+   * Helper reset state for the current config
+   */
   const resetStart = () => {
     stopInterval();
     setStatus(STATUS.RESET);
@@ -119,6 +136,9 @@ const TimerProvider = ({children}) => {
     setCurRound(0);
   }
 
+  /**
+   * Helper stop the interval and reset state
+   */
   const resetAll = () => {
     stopInterval();
     setStatus(STATUS.RESET);
@@ -130,9 +150,12 @@ const TimerProvider = ({children}) => {
     setCurRound(0);
   }
 
+  /**
+   * Helper to add a new Timer and reset state to that timer
+   * @param [object] curQTimer - the timer to apply
+   */
   const resetToCurTimer = (curQTimer) => {
     setCurTimer(curQTimer);
-    console.log('KAREN in resetToCurTimer curQTimer', curQTimer);
     setCurSec(curQTimer.isCountASC ? 0 : curQTimer.workSecs);
     // Start on the first round if more than one
     setCurRound(curQTimer.rounds > 0 ? 1 :0);

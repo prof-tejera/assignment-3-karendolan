@@ -161,10 +161,12 @@ function WorkQueueView() {
 
   // Increment current total time
   useEffect(() => {
+    console.log('KAREN useEffect for curQueueCounter curSec', curSec , "isRunning()", isRunning());
     if (isRunning()) {
+      console.log('KAREN useEffect Updating curQueueSec');
       setCurQueueTime(c => c + 1);
     }
-  }, [curSec, setCurQueueTime]);
+  }, [curSec, setCurQueueTime, isRunning]);
 
   return (
     <Timers>
