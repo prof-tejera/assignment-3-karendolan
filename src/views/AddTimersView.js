@@ -74,10 +74,10 @@ function AddTimersView() {
   } = useContext(TimerContext);
 
   const timers = [
-    { title: "Stopwatch", C: <Stopwatch />, isCountASC: true },
-    { title: "Countdown", C: <Countdown />, isCountASC: false },
-    { title: "XY", C: <XY />, isCountASC: true },
-    { title: "Tabata", C: <Tabata />, isCountASC: true },
+    { title: "Stopwatch", component: <Stopwatch /> },
+    { title: "Countdown", component: <Countdown /> },
+    { title: "XY", component: <XY /> },
+    { title: "Tabata", component: <Tabata /> },
   ]
 
   // For routing to add button
@@ -114,9 +114,9 @@ function AddTimersView() {
              onClick={() => history.push(`/`)}
            />
         </MenuContainer>
-        { !!curTimer ? (
+        { curTimer ? (
           <Timer>
-            {curTimer.C}
+            {curTimer.component}
           </Timer>
         ) : (
           <Timer>

@@ -70,7 +70,7 @@ const ButtonPanel = () => {
              isCountASC: isCountASC,
              rounds,
              title: curTimer.title,
-             component: curTimer.C,
+             component: curTimer.component,
              state: STATUS.NOT_RUNNING,
            });
          }
