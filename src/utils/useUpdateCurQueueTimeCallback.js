@@ -1,19 +1,23 @@
-import {useContext, useEffect, useRef} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import { TimerQueueContext } from "../context/TimerQueueProvider";
+import { TimerContext } from "../context/TimerProvider";
 
 const useUpdateCurQueueTimeCallback = () => {
-  const { resetQueueStart } = useContext(TimerQueueContext);
+  const { setCurQueueSecs } = useContext(TimerQueueContext);
+  const { curSec, isRunning, getCurStartSecs } = useContext(TimerContext);
+  // the current seconds state of the timer queue
+  const [curQueueTime, setCurQueueTime] = useState(0);
   // Create a reset ref
   const resetCallback = useRef(() => {
-    resetQueueStart();
+    setCurQueueSecs(c => c + 1);
   });
 
-  // On unload reset all timer context
+  // When the following callcallback
   useEffect(() => {
-    return () => {
+    if (isRunning() && getCurStartSecs() !== curSec) {
       resetCallback.current();
-    };
-  },[resetCallback]);
+    }
+  },[curSec, isRunning, getCurStartSecs ]);
 
   // Set the current callback ref
   resetCallback.current = () => {
