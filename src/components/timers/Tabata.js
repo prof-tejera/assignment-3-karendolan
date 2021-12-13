@@ -9,7 +9,7 @@ import DisplayTime from "../generic/DisplayTime";
 import DisplayRounds from "../generic/DisplayRounds";
 
 // Hook to reset all state when component unloads
-import useResetCallback from "../../utils/useResetCallback";
+import useResetTimerCallback from "../../utils/useResetTimerCallback";
 // Component to show a fun effect when timer ends
 import EndConfetti from '../../utils/EndConfetti';
 
@@ -34,7 +34,7 @@ const Tabata = () => {
     isInRestingContext,
   } = useContext(TimerContext);
   // Hook to reset all state when component unloads;
-  useResetCallback();
+  useResetTimerCallback();
 
   // The amount of total secs in current Tabata segment
   const seconds =  isInRestingContext() ? restSecs : workSecs;

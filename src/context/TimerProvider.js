@@ -130,6 +130,19 @@ const TimerProvider = ({children}) => {
     setCurRound(0);
   }
 
+  const resetToCurTimer = (curQTimer) => {
+    setCurTimer(curQTimer);
+    console.log('KAREN in resetToCurTimer curQTimer', curQTimer);
+    setCurSec(curQTimer.isCountASC ? 0 : curQTimer.workSecs);
+    // Start on the first round if more than one
+    setCurRound(curQTimer.rounds > 0 ? 1 :0);
+    setWorkSecs(curQTimer.workSecs);
+    setRestSecs(curQTimer.restSecs);
+    setRounds(curQTimer.rounds);
+    setIsCountASC(curQTimer.isCountASC);
+    work();
+  }
+
   // Retrieve the Interval helper API
   // Give it all it needs to manage context
   // state between intervals.
@@ -175,6 +188,7 @@ const TimerProvider = ({children}) => {
          end,
          resetStart,
          resetAll,
+         resetToCurTimer,
          isRunning,
          isPaused,
          isEnded,

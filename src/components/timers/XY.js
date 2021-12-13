@@ -8,7 +8,7 @@ import DisplayRounds from "../generic/DisplayRounds";
 import DisplayTime from "../generic/DisplayTime";
 
 // Hook to reset all state when component unloads
-import useResetCallback from "../../utils/useResetCallback";
+import useResetTimerCallback from "../../utils/useResetTimerCallback";
 // Component to show a fun effect when timer ends
 import EndConfetti from '../../utils/EndConfetti';
 
@@ -30,7 +30,7 @@ const XY = () => {
     setIsCountASC,
   } = useContext(TimerContext);
   // Hook to reset all state when component unloads;
-  useResetCallback();
+  useResetTimerCallback();
 
   // The Array of inputs used in this timer
   const inputs = [

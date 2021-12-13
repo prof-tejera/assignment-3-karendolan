@@ -7,7 +7,7 @@ import DisplayTime from "../generic/DisplayTime";
 import { TimerContext } from "../../context/TimerProvider";
 
 // Hook to reset all state when component unloads
-import useResetCallback from "../../utils/useResetCallback";
+import useResetTimerCallback from "../../utils/useResetTimerCallback";
 // Component to show a fun effect when timer ends
 import EndConfetti from '../../utils/EndConfetti';
 
@@ -26,7 +26,7 @@ const Stopwatch = () => {
   } = useContext(TimerContext);
 
   // Hook to reset all state when component unloads;
-  useResetCallback();
+  useResetTimerCallback();
 
   // Create input components
   const inputs = [

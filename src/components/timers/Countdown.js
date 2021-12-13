@@ -6,7 +6,7 @@ import Panel from '../generic/Panel';
 import Input from '../generic/Input';
 import DisplayTime from '../generic/DisplayTime';
 // Hook to reset all state when component unloads
-import useResetCallback from '../../utils/useResetCallback';
+import useResetTimerCallback from "../../utils/useResetTimerCallback";
 // Component to show a fun effect when timer ends
 import EndConfetti from '../../utils/EndConfetti';
 
@@ -24,7 +24,7 @@ const Countdown = () => {
   } = useContext(TimerContext);
 
   // Hook to reset all state when component unloads;
-  useResetCallback();
+  useResetTimerCallback();
 
   const timerTitle = 'Countdown';
   const inputs = [

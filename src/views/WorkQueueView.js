@@ -9,6 +9,9 @@ import ShowQueuedList from "../shared/ShowQueuedList";
 // Context Provider
 import { TimerQueueContext } from '../context/TimerQueueProvider';
 import { TimerContext } from "../context/TimerProvider";
+// Hook to reset Timer Queue to starting state when component unloads
+import useResetQueueCallback from "../utils/useResetQueueCallback";
+
 // work queue end confetti
 import Confetti from 'react-confetti';
 
@@ -80,22 +83,17 @@ function WorkQueueView() {
    } = useContext(TimerQueueContext);
 
    const {
-    setWorkSecs,
-    setRestSecs,
-    setRounds,
-    setIsCountASC,
-    setCurTimer,
-    setCurSec,
-    setCurRound,
-    work,
     isRunning,
     isEnded,
     resetAll,
+    resetToCurTimer,
     curSec,
    } = useContext(TimerContext);
 
    // For routing button
    const history = useHistory();
+   // Hook to reset tiner queue to start when component unloads
+   useResetQueueCallback();
 
   /**
    * Reset local queue state and context queue state
@@ -150,36 +148,23 @@ function WorkQueueView() {
     }
   }, [isEnded, resetAll, initNextTimer]);
 
-  useEffect(() => {
-    return () => {
-      resetQueueStart();
-      resetAll();
-    }
-  }, []);
-
   // When the cur timer changes, update the timer context
   useEffect(() => {
     // Init the new curent timer
     if (curQTimer && curQTimer.state === STATUS.NOT_RUNNING) {
+      // Prep timer for starting
       curQTimer.state = STATUS.RUNNING;
-      setCurTimer(curQTimer);
-      setCurSec(curQTimer.isCountASC ? 0 : curQTimer.workSecs);
-      // Start on the first round if more than one
-      setCurRound(curQTimer.rounds > 0 ? 1 :0);
-      setWorkSecs(curQTimer.workSecs);
-      setRestSecs(curQTimer.restSecs);
-      setRounds(curQTimer.rounds);
-      setIsCountASC(curQTimer.isCountASC);
-      work();
+      // Update the TimerContext
+      resetToCurTimer(curQTimer);
     }
-  }, [curQTimer]);
+  }, [curQTimer, resetToCurTimer]);
 
   // Increment current total time
   useEffect(() => {
     if (isRunning()) {
       setCurQueueTime(c => c + 1);
     }
-  }, [curSec]);
+  }, [curSec, setCurQueueTime]);
 
   return (
     <Timers>

@@ -1,14 +1,14 @@
 import {useContext, useEffect, useRef} from "react";
-import { TimerContext } from "../context/TimerProvider";
+import { TimerQueueContext } from "../context/TimerQueueProvider";
 
 /**
- * Custom hook to reset all state when a Timer unloads
+ * Custom hook to reset Queue to start when the Queue unloads
  */
-const useResetCallback = () => {
-  const { resetAll } = useContext(TimerContext);
+const useResetQueueCallback = () => {
+  const { resetQueueStart } = useContext(TimerQueueContext);
   // Create a reset ref
   const resetCallback = useRef(() => {
-    resetAll();
+    resetQueueStart();
   });
 
   // On unload reset all timer context
@@ -20,7 +20,7 @@ const useResetCallback = () => {
 
   // Set the current callback ref
   resetCallback.current = () => {
-    resetAll();
+    resetQueueStart();
   }
 }
-export default useResetCallback;
+export default useResetQueueCallback;
