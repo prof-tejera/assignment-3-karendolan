@@ -1,4 +1,7 @@
-# Objective for Assignment 3
+#Web Site
+[https://prof-tejera.github.io/assignment-3-karendolan](https://prof-tejera.github.io/assignment-3-karendolan)
+
+#Objective for Assignment 3
 
 This is the 3rd and last assignment (A3) for E-39 Design Principles in React. Using our timers from Assignment 2 (A2), we will build a workout app that allows our users to assemble **multiple timers** into a workout queue. This workout queue will be executed in the order that the timers were added. Let's take a look at an example:
 
