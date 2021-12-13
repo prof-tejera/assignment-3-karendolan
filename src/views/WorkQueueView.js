@@ -162,7 +162,6 @@ function WorkQueueView() {
   useEffect(() => {
     // Init the new curent timer
     if (curQTimer && curQTimer.state === STATUS.NOT_RUNNING) {
-      console.log('-----', curQTimer.title, '------');
       // Prep timer for starting
       curQTimer.state = STATUS.RUNNING;
       // Update the TimerContext
@@ -170,63 +169,25 @@ function WorkQueueView() {
     }
   }, [curQTimer, resetToCurTimer]);
 
- /*
-  // -------------- more tests
-  // When the following callcallback
-  useEffect(() => {
-    if (isRunning() && getCurStartSecs() !== curSec) {
-      // setCurTimerTime(c => c + 1);
-      //         console.log('KAREN, detected change in curTimerTime == ',curTimerTime,')');
-              setCurQueueTime(c => {
-                if (!Number.isFinite(c)) {
-                  console.log('KAREN queue time 0');
-                  return 0;
-                }
-                console.log('KAREN queue time ', c, ' => ', c + 1);
-                return c + 1
-              });
-    }
-  },[curSec, isRunning, getCurStartSecs ]);
-  */
-
-  // Increment current total time when the local flag updates
-  useEffect(() => {
-      // if (isRunning() && getCurStartSecs() !== curSec) {
-      //if (curTimerTime && curQTimer && curQTimer.state === STATUS.RUNNING) {
-        // console.log('KAREN 1, detected change in curSec ',curSec,')');
-        setCurQueueTime(c => {
-          if (!Number.isFinite(c)) {
-            console.log('KAREN 2, queue time 0');
-            return 0;
-          }
-          const curSec = "ABC";
-          if (curSec !== c) {
-            console.log('KAREN 2, updating queue time ', c, ' => ', c + 1);
-            return c + 1
-          }
-          console.log('KAREN 2, leaving existing time ', c);
-          return c;
-        });
-  }, [setCurQueueTime]);
-
   // Locally keep track of changes in the timer curSec
   useEffect(() => {
     if (curSec !== curTimerTime
       && isRunning()
       && getCurStartSecs() !== curSec
     ) {
-      console.log('KAREN 1, ---- local timerTime from (',curTimerTime,') to (', curSec, ') startSec', getCurStartSecs());
+      // Keep a local reference of the current Timer time
       setCurTimerTime(curSec);
+      // Update the current running queued time if needed
       setCurQueueTime(c => {
+        // First update is initialize
         if (!Number.isFinite(c)) {
-          console.log('KAREN 2, queue time 0');
           return 0;
         }
+        // Increment if curSec has incremented
         if (curSec !== c) {
-          console.log('KAREN 2, updating queue time ', c, ' => ', c + 1);
           return c + 1
         }
-        console.log('KAREN 2, leaving existing time ', c);
+        // Otherwise leave as is
         return c;
       });
     }
