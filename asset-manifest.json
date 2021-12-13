@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/assignment-3-karendolan/static/css/main.9a02c093.chunk.css",
+    "main.js": "/assignment-3-karendolan/static/js/main.7330944a.chunk.js",
+    "main.js.map": "/assignment-3-karendolan/static/js/main.7330944a.chunk.js.map",
+    "runtime-main.js": "/assignment-3-karendolan/static/js/runtime-main.23c7941b.js",
+    "runtime-main.js.map": "/assignment-3-karendolan/static/js/runtime-main.23c7941b.js.map",
+    "static/js/2.2391ecf8.chunk.js": "/assignment-3-karendolan/static/js/2.2391ecf8.chunk.js",
+    "static/js/2.2391ecf8.chunk.js.map": "/assignment-3-karendolan/static/js/2.2391ecf8.chunk.js.map",
+    "index.html": "/assignment-3-karendolan/index.html",
+    "static/css/main.9a02c093.chunk.css.map": "/assignment-3-karendolan/static/css/main.9a02c093.chunk.css.map",
+    "static/js/2.2391ecf8.chunk.js.LICENSE.txt": "/assignment-3-karendolan/static/js/2.2391ecf8.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.23c7941b.js",
+    "static/js/2.2391ecf8.chunk.js",
+    "static/css/main.9a02c093.chunk.css",
+    "static/js/main.7330944a.chunk.js"
+  ]
+}
