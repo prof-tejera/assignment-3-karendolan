@@ -147,7 +147,7 @@ const ShowQueuedList = ({curQueueTime}) => {
         </TimeSubHeader>
         {curQueueTime > 0 && (
           <TimeSubHeader>
-            Queue Current Time: {getHmsDisplayFromSecs(curQueueTime)}
+            Running Time: {getHmsDisplayFromSecs(curQueueTime)}
           </TimeSubHeader>
         )}
       </HeaderContainer>

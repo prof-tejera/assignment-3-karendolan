@@ -159,25 +159,25 @@ function WorkQueueView() {
 
   // When the cur timer changes, update the timer context
   useEffect(() => {
-    // Init the curentTimer
+    // Init the new curent timer
     if (curQTimer && curQTimer.state === STATUS.NOT_RUNNING) {
       curQTimer.state = STATUS.RUNNING;
       setCurTimer(curQTimer);
       setCurSec(curQTimer.isCountASC ? 0 : curQTimer.workSecs);
       // Start on the first round if more than one
-      setCurRound(0);
+      setCurRound(curQTimer.rounds > 0 ? 1 :0);
       setWorkSecs(curQTimer.workSecs);
       setRestSecs(curQTimer.restSecs);
       setRounds(curQTimer.rounds);
       setIsCountASC(curQTimer.isCountASC);
       work();
     }
-  }, [curQTimer, setWorkSecs, setRestSecs, setRounds, work]);
+  }, [curQTimer]);
 
   // Increment current total time
   useEffect(() => {
     if (isRunning()) {
-      setCurQueueTime(curQueueTime + 1);
+      setCurQueueTime(c => c + 1);
     }
   }, [curSec]);
 
