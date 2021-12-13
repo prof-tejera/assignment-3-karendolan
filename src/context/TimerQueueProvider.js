@@ -65,10 +65,22 @@ const TimerQueueProvider = ({children}) => {
   }
 
   /**
+   * Shortcut to jump to the end of the timer queue
+   */
+  const goToEndofQueue = () => {
+    timers.forEach((timer) => {
+      timer.state = STATUS.COMPLETED;
+    })
+    setCurQTimer();
+    setNextTimer();
+    setNextTimerIndex();
+    setQueueEnded(true);
+  }
+
+  /**
    * API to start the timer queue by setting curQTimer
    */
   const initNextTimer = () => {
-    console.log('in nextTimerIndex()', nextTimerIndex);
     // Set initial timer
     if (!curQTimer) {
       setCurQTimer(timers.length > 0 ? timers[0] : undefined);
@@ -77,12 +89,7 @@ const TimerQueueProvider = ({children}) => {
     }
     // Check if last timer
     else if (!Number.isFinite(nextTimerIndex)) {
-      console.log('LAST TIMER!!!!');
-      curQTimer.state = STATUS.COMPLETED;
-      setCurQTimer();
-      setNextTimer();
-      setNextTimerIndex();
-      setQueueEnded(true);
+      goToEndofQueue();
       // Else go to next timer
     } else {
       curQTimer.state = STATUS.COMPLETED;
@@ -117,6 +124,7 @@ const TimerQueueProvider = ({children}) => {
          deleteTimer,
          initNextTimer,
          resetQueueStart,
+         goToEndofQueue,
          queueEnded,
        }}>
       {children}

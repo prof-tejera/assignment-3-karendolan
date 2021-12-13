@@ -36,6 +36,9 @@ const TimerProvider = ({children}) => {
   const isEnded = () => {
     return status === STATUS.ENDED;
   }
+  const isInCountdown = () => {
+    return status === STATUS.COUNTDOWN;
+  }
   const isReset = () => {
     return status === STATUS.RESET;
   }
@@ -182,6 +185,7 @@ const TimerProvider = ({children}) => {
          isResting,
          isWorking,
          isReset,
+         isInCountdown,
          isInRestingContext,
          getCurStartSecs,
          curTimer,

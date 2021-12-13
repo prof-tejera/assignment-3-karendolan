@@ -29,6 +29,7 @@ const ButtonPanel = () => {
     isPaused,
     isRunning,
     isReset,
+    isInCountdown,
     curTimer,
     workSecs,
     restSecs,
@@ -42,12 +43,16 @@ const ButtonPanel = () => {
 
   // All timers use these two buttons
   // The Reset button handles ending, reseting to start, or clearing all state
-  const resetButtonFunc = isRunning() ? end : (isReset() ? resetAll : resetStart);
+  const resetButtonFunc = (
+    isRunning() || isPaused() || isInCountdown()
+    ? end
+    : (isReset() ? resetAll : resetStart)
+  );
   // the Work button handles pausing and playing the timer
   // The 2 options are ability to pause the timer if it's running
   // Or the ability to add the timer to the queue if it's in config state (not running)
   const workButtonFunc = (
-    isRunning()
+    isRunning() || isInCountdown()
       ? pause
       // Add timer to timer queue with config
       : (
@@ -78,13 +83,25 @@ const ButtonPanel = () => {
       <Button
         size='large'
         active={false}
-        text={(isRunning() ? 'End' : (isReset() ? 'Clear' : 'Reset'))}
+        text={(
+          isRunning() || isPaused() || isInCountdown()
+          ? 'End'
+          : (
+            isReset()
+            ? 'Clear'
+            : 'Reset'
+          )
+        )}
         onClick={resetButtonFunc}
       />
       <Button
         size='large'
         active={true}
-        text={(isRunning() ? 'Pause' : (isPaused() ? 'Resume' : 'Add Timer'))}
+        text={(
+          isRunning() || isInCountdown()
+          ? 'Pause'
+          : (isReset() ? 'Add Timer' : 'Resume')
+        )}
         onClick={workButtonFunc}
       />
     </Container>

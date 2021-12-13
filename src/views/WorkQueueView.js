@@ -75,6 +75,7 @@ function WorkQueueView() {
     nextTimer,
     initNextTimer,
     queueEnded,
+    goToEndofQueue,
     resetQueueStart,
    } = useContext(TimerQueueContext);
 
@@ -146,7 +147,6 @@ function WorkQueueView() {
       resetAll();
       // Start next timer if there is one
       initNextTimer();
-      // resetStart <--- after confetti
     }
   }, [isEnded, resetAll, initNextTimer]);
 
@@ -192,7 +192,7 @@ function WorkQueueView() {
               active={true}
               text={(
                 nextTimer
-                ? 'Next Timer'
+                ? 'End All'
                 : (
                   curQTimer
                     ? 'End'
@@ -203,10 +203,17 @@ function WorkQueueView() {
                     )
                   )
               )}
+              //goToEndofQueue
               onClick={() => {
-                queueEnded
-                  ? resetTimerQueueAll()
-                  : initNextTimer();
+                return (
+                  nextTimer
+                  ? goToEndofQueue()
+                  : (
+                    queueEnded
+                      ? resetTimerQueueAll()
+                      : initNextTimer()
+                    )
+                  )
                 }
               }
             />
